@@ -17,7 +17,7 @@ class SignUp extends Component {
   }
 
   handleChange(event) {
-   this.setState({user_name: event.target.value});
+   this.setState({email: event.target.value});
  }
  handleChange2(event) {
   this.setState({password: event.target.value});
@@ -33,8 +33,9 @@ class SignUp extends Component {
 }
 
 test(){
+  console.log(this.state);
   var user={
-    user_name:this.state.user_name,
+    email:this.state.email,
     password:bcrypt.hashSync(this.state.password)
   }
   //console.log(user);
@@ -64,17 +65,6 @@ test(){
 
 
   render(){
-    this.state.switcher=true;
-    if(this.state.name===" " && this.state.switcher){
-      this.state.switcher=false;
-      this.state.name="";
-      alert("Sorry, that username is already taken")
-    }
-
-    if(this.state.name.user_name!=null){
-        this.props.history.push("/",this.state.name);
-    }
-
     return(
       <>
       <div className= "FormTitle" id="TitleTextSignUp">

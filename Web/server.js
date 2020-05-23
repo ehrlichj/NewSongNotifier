@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.timeout = 0;
 
 // open the database
 
@@ -18,33 +19,26 @@ let db = mysql.createConnection({
   port: 3304
 });
 
-db.connect(function(err){ 
+db.connect(function(err){
   if(err) throw err;
   console.log("conneted!");
 });
 
+app.post('/api/signup', function(req, res){
 
-/* app.get('/api/students', function(req, res){
-    // WHERE user_name==?
-    let sql = `SELECT * FROM student_info`
-    //to get one thing, db.get() not db.all
-    db.all(sql,[],(err,row)=>{
-      if (err){
-        return console.error(err.message);
-      }
-	setValue(row);
-	//console.log(row.user_name);
-    });
-	function setValue(value){
-		x=value;
-		//x=x.user_name
-		res.json(x)
-		res.end()
-	}
-});*/
+  var sql_query_string = "INSERT INTO Music_App.User VALUES (?,?)";
 
+  var email = req.body.email
+  var password = req.body.password
 
+  db.query(sql_query_string, [email,password], function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
 
+});
+
+//db.end();
 
 const port = 5000;
 

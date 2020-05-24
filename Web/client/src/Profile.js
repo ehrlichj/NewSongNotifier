@@ -11,9 +11,10 @@ class Profile extends Component {
     this.handleChange2=this.handleChange2.bind(this);
     this.test=this.test.bind(this);
     this.state={
-      name:"",
-      switcher:true
+      email:this.props.location.state[0][0].email,
+      artists:this.props.location.state[1][0]
     }
+
   }
 
   handleChange(event) {
@@ -65,13 +66,27 @@ test(){
 
 
   render(){
+    var email = this.state.email
+    var artists = this.state.artists.artist_name
     return(
       <>
       <div className= "FormTitle" id="TitleTextSignUp">
-      Profile
+      Profile for {email}<br></br>
+      Your current artists are : {artists}
       </div>
 
-      YOU AINT GOT SHIT
+      <center>
+        <form className= "FormFields">
+
+          <div className="FormField">
+            <label className= "FormField_Label" > Artist to Add: </label>
+            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Create a Username" type="text" name="Email" />
+          </div>
+
+          <Button onClick={this.test} className= "Buttons" >Add </Button>
+          <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
+        </form>
+      </center>
 
       </>
     );

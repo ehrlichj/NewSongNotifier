@@ -58,7 +58,7 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:query_result},()=> console.log("success",query_result)));
+  .then(query_result => this.setState({query:query_result},()=> console.log("login success")));
 }
 
 
@@ -66,8 +66,8 @@ test(){
     if (this.state.query != null){
       if(this.state.query.length > 0){// you can login
           //if you have artists, show them
-          //else, just login without querying user_artist
-          this.props.history.push("/profile",this.props.history.location.state);
+          //else, just login without querying
+          this.props.history.push("/profile",this.state.query);
       }
     }
 

@@ -84,11 +84,6 @@ test(){
       <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
     </div>
 
-    <div id="buff">
-      <label className= "FormField_CheckboxLabel"></label>
-      <input className= "FormField_Checkbox" type="checkbox" name="Agreed" />
-    </div>
-
         <Button onClick={this.test} className= "Buttons" >Sign Up </Button>
         <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
     </form>

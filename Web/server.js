@@ -38,6 +38,22 @@ app.post('/api/signup', function(req, res){
 
 });
 
+app.post('/api/login', function(req, res){
+  var sql_query_string = "SELECT U.email
+                          FROM Music_App.User
+                          WHERE email = ? AND password = ?";
+
+  var email = req.body.email
+  var password = req.body.password
+
+  db.query(sql_query_string, [email,password], function (err, result) {
+    if (err) throw err;
+    res.json(result)
+    res.end();
+  });
+
+});
+
 //db.end();
 
 const port = 5000;

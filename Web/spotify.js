@@ -20,9 +20,10 @@ function searchArtists(artistName){
               // Save the access token so that it's used in future calls
               //console.log(data.;
               spotifyApi.setAccessToken(data.body.access_token);
+              console.log(spotifyApi.getAccessToken())
               spotifyApi.searchArtists(artistName).then(
                   function(data){
-                      //console.log(data.body.artists.items[0]);
+                      console.log(data.body.artists.items[0]);
                       return data.body.artists.items[0].external_urls.id;
                   }, function(err){
                       console.error(err);
@@ -51,8 +52,21 @@ function searchArtists(artistName){
           spotifyApi.getArtistAlbums(artistID).then(
             function(data){
                // console.log("Artist Name: ", data.body.artists.name);
-                console.log("Most Recent Album Name", data.body.items[0].name);
-                console.log("Release Date", data.body.items[0].release_date);
+                var albums = data.body.items;
+                var d1=Date.parse("0000-01-01");
+                var d2=Date.parse("0000-01-01");
+                var album_num = 0;
+                for(var i =0; i<albums.length; i++){
+                    var d1 = Date.parse(albums[i].release_date);
+                    if(d1 > d2){
+                        d2 = d1;
+                        album_num = i;
+                    }
+                }
+                console.log(d2.toString());
+                console.log("Most Recent Album Name", data.body.items[album_num].name);
+
+                console.log("Release Date", data.body.items[album_num].release_date);
             },
             function(err){
                 console.log(err);
@@ -64,6 +78,6 @@ function searchArtists(artistName){
         }
       );
 }
-
-mostRecentRelease("3qm84nBOXUEQ2vnTfUTTFC");
+//searchArtists("Picture This");
+mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
 

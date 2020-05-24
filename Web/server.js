@@ -33,22 +33,24 @@ app.post('/api/signup', function(req, res){
 
   db.query(sql_query_string, [email,password], function (err, result) {
     if (err) throw err;
-    console.log(result);
+    res.json(result);
+    res.end()
   });
 
 });
 
 app.post('/api/login', function(req, res){
-  var sql_query_string = "SELECT U.email
-                          FROM Music_App.User
-                          WHERE email = ? AND password = ?";
+  var sql_query_string = "SELECT email \
+                          FROM Music_App.User \
+                          WHERE email = ? AND PW = ?";
 
   var email = req.body.email
   var password = req.body.password
 
   db.query(sql_query_string, [email,password], function (err, result) {
     if (err) throw err;
-    res.json(result)
+    console.log("The backend says",result);
+    res.json(result);
     res.end();
   });
 

@@ -11,8 +11,6 @@ class SignUp extends Component {
     this.handleChange2=this.handleChange2.bind(this);
     this.test=this.test.bind(this);
     this.state={
-      name:"",
-      switcher:true
     }
   }
 
@@ -36,7 +34,7 @@ test(){
   console.log(this.state);
   var user={
     email:this.state.email,
-    password:bcrypt.hashSync(this.state.password)
+    password:this.state.password//bcrypt.hashSync(this.state.password)
   }
   //console.log(user);
   var url="/api/signup";
@@ -60,11 +58,14 @@ test(){
       return res.json();
     }
   })
-  .then(user => this.setState({name:user},()=> console.log("success",user)));
+  .then(query_result => this.setState({query:query_result},()=> console.log("success")));
 }
 
 
   render(){
+    if (this.state.query != null){
+      this.props.history.push("/profile",this.props.history.location.state);
+    }
     return(
       <>
       <div className= "FormTitle" id="TitleTextSignUp">

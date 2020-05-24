@@ -87,9 +87,9 @@ app.post('/api/login', function(req, res){
 });
 
 app.post('/api/userArtistSubmission', function(req,res){
-  var sql_query_string = "SELECT aid\
+  var sql_query_string = "SELECT aid \
                           FROM Music_App.Artists A \
-                          WHERE A.artist_name = ?  ";
+                          WHERE A.artist_name = ? ";
 
   var artist_name = req.body.artist_name;
   var email = req.body.email;

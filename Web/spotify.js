@@ -13,9 +13,8 @@ function searchArtists(artistName){
             clientSecret: client_secret,
             redirectUri: redirectURL
         });
-    
         spotifyApi.clientCredentialsGrant().then(
-            function(data) {    
+            function(data) {
               // Save the access token so that it's used in future calls
               //console.log(data.;
               spotifyApi.setAccessToken(data.body.access_token);
@@ -44,7 +43,7 @@ function searchArtists(artistName){
         redirectUri: redirectURL
     });
     spotifyApi.clientCredentialsGrant().then(
-        function(data) {    
+        function(data) {
           // Save the access token so that it's used in future calls
           spotifyApi.setAccessToken(data.body.access_token);
           //console.log(id)
@@ -81,5 +80,4 @@ function searchArtists(artistName){
 //searchArtists("Picture This");
 mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
 
-export {searchArtists, mostRecentRelease};
-
+module.exports = {searchArtists, mostRecentRelease};

@@ -8,7 +8,6 @@ class Profile extends Component {
     super(props);
     this.routeChange=this.routeChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
-    this.handleChange2=this.handleChange2.bind(this);
     this.test=this.test.bind(this);
     this.state={
       email:this.props.location.state[0][0].email,
@@ -18,11 +17,8 @@ class Profile extends Component {
   }
 
   handleChange(event) {
-   this.setState({email: event.target.value});
+   this.setState({artist_to_add: event.target.value});
  }
- handleChange2(event) {
-  this.setState({password: event.target.value});
-}
 
   routeChange(value){
     if (value.target.id=="Back"){
@@ -34,13 +30,12 @@ class Profile extends Component {
 }
 
 test(){
-  console.log(this.state);
   var user={
     email:this.state.email,
-    password:bcrypt.hashSync(this.state.password)
+    artist_name : this.state.artist_to_add
   }
   //console.log(user);
-  var url="/api/signup";
+  var url="/api/userArtistSubmission";
   const req = new Request(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -61,7 +56,7 @@ test(){
       return res.json();
     }
   })
-  .then(user => this.setState({name:user},()=> console.log("success",user)));
+  .then(result => this.setState({didItWork:result},()=> console.log("fin")));
 }
 
 

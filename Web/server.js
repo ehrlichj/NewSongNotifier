@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-import * as spotifyApi from './spotify.js';
+const spotifyApi = require('./spotify.js');
 
 
 app.use(bodyParser.json());
@@ -111,7 +111,7 @@ app.post('/api/userArtistSubmission', function(req,res){
   });
   function insertArtist(artist_id, artist_name, release_date){
     var sql_query_string = "INSERT INTO Music_App.Artists (?, ?, ?)";
-    
+
     db.query(sql_query_string, [artist_id, artist_name, release_date], function(err,result){
       if(err) throw err;
       console.log("succesfully inserted new Artist");

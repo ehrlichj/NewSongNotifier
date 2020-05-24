@@ -66,6 +66,7 @@ function searchArtists(artistName){
                 console.log("Most Recent Album Name", data.body.items[album_num].name);
 
                 console.log("Release Date", data.body.items[album_num].release_date);
+                return data.body.items[album_num];
             },
             function(err){
                 console.log(err);
@@ -79,4 +80,6 @@ function searchArtists(artistName){
 }
 //searchArtists("Picture This");
 mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
+
+export {searchArtists, mostRecentRelease};
 

@@ -5,7 +5,6 @@ var SpotifyWebApi = require('spotify-web-api-node');
 var client_id = '10d822d62dff407987d136dede85caac';
 var client_secret = 'b22cf3d5fb5947cea703555ba49a3afc';
 var redirectURL = 'http://localhost:5000';
-//var token = 'BQBf1HI3qWJ4VNEU-B79SIO2s-1n6Kq9frr3G56FMct5jt2KKgEVMRL3H3x1uSYHc1Np5F-5yvQF7Xy0JWI';
 
 
 function searchArtists(artistName){

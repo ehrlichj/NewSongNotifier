@@ -59,13 +59,13 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:query_result},()=> console.log("success")));
+  .then(query_result => this.setState({query:[[this.state.email],[]]},()=> console.log("success")));
 }
 
 
   render(){
     if (this.state.query != null){
-      this.props.history.push("/profile",this.props.history.location.state);
+      this.props.history.push("/profile",this.state.query);
     }
     return(
       <>

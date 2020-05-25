@@ -26,8 +26,8 @@ class Home extends Component {
     return(
       <>
         <center>
-        <div className= "HeaderInfo" id="TitleTextSignUp">
-          The Home Page
+        <div className= "HeaderInfo" id = "TitleTextSignUp">
+          Note-ify
         </div>
         <div className = "buttonsDiv">
         <Button id = "Login"   className = "Button" onClick={this.routeChange}>Login</Button>

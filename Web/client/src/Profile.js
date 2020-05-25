@@ -68,17 +68,28 @@ test(){
     var artists = this.state.artists
     var all_artists_string = ""
 
-    for(var i = 0;i < artists.length;i++){
-      all_artists_string += artists[i].artist_name
-      if(i != artists.length -1){
-        all_artists_string += ", "
+    console.log(artists)
+    if (artists === "no artists" || artists.length == 0){ // from signup it returns a blank array,
+                                                          // from query or login it returns the string
+                                                          // no artists :(
+      all_artists_string = "You are not following any artists"
+    }
+
+    else{
+      all_artists_string = "Your current artists are: "
+      for(var i = 0;i < artists.length;i++){
+        all_artists_string += artists[i].artist_name
+        if(i != artists.length -1){
+          all_artists_string += ", "
+        }
       }
     }
+
     return(
       <>
       <div className= "HeaderInfo" id="ProfileInfo">
         Profile for {email}<br></br>
-        Your current artists are : {all_artists_string}
+        {all_artists_string}
       </div>
 
       <center>

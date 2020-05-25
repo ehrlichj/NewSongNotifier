@@ -33,7 +33,7 @@ body {background-color: #2ECC40;}
   }
 
   .Button:hover {
-    background-color:#008080;
+    background-color:#01FF70;
     color: #White;
     cursor: pointer;
   }

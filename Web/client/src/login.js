@@ -12,8 +12,10 @@ class Login extends Component {
     this.routeChange=this.routeChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
     this.handleChange2=this.handleChange2.bind(this);
+    this.verify=this.verify.bind(this);
     this.test=this.test.bind(this);
     this.state={
+      login_toggle : false
     }
   }
 
@@ -37,15 +39,15 @@ test(){
   //console.log(this.state);
   var user={
     email:this.state.email,
-    password:this.state.password//bcrypt.Sync(this.state.password)
   }
   //console.log(user);
-  var url="/api/login";
+  var url="/api/loginToVerify";
   const req = new Request(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(user),
   });
+
   fetch(req)
   .then((res)=>{
     if(res.status===500){
@@ -61,15 +63,56 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:query_result},()=> console.log("login success")));
+  .then(query_result => this.setState({query:query_result},()=> this.verify()));
+}
+
+verify(){
+  if(this.state.query === "No User By That Email"){
+      alert("Not Valid Email");
+  }
+  else{
+    var email = this.state.query[0].email
+    var secured = this.state.query[0].PW
+    if(bcrypt.compareSync(this.state.password,secured)){
+      var user={
+        email:email
+      }
+      //console.log(user);
+      var url="/api/loginToGetArist";
+      const req = new Request(url,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(user),
+      });
+      fetch(req)
+      .then((res)=>{
+        if(res.status===500){
+        res.json()
+        .then((json)=>{
+            const {message,stackTrace}=json;
+          })
+          .catch((error)=>{
+            return Promise.reject(error);
+          });
+        }
+        else{
+          return res.json();
+        }
+      })
+      .then(query_result => this.setState({query:[[{email:this.state.email}],query_result],login_toggle:true},()=> console.log("login success")));
+    }
+    else{
+      alert("Invalid Password")
+    }
+
+  }
+
 }
 
 
   render(){
     if (this.state.query != null){
-      if(this.state.query.length > 0){// you can login
-          //if you have artists, show them
-          //else, just login without querying
+      if(this.state.query.length > 0 && this.state.login_toggle){// you can login
           this.props.history.push("/profile",this.state.query);
       }
     }

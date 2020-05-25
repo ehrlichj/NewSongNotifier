@@ -40,50 +40,52 @@ app.post('/api/signup', function(req, res){
 
 });
 
-app.post('/api/login', function(req, res){
-  var sql_query_string = "SELECT U.email \
+app.post('/api/loginToVerify', function(req, res){
+  var sql_query_string = "SELECT * \
                           FROM Music_App.User U \
-                          WHERE U.email = ? AND U.PW = ?";
+                          WHERE U.email = ?";
 
   var email = req.body.email
-  var password = req.body.password
 
-  db.query(sql_query_string, [email,password], function (err, result) {
+  db.query(sql_query_string, [email], function (err, result) {
     if (err) throw err;
     //res.json(result);
     //res.end();
-    console.log("the backend says",result);
+    console.log("loginToVerify says",result);
 
     if (result.length == 0){
-      res.json("failed")
+      res.json("No User By That Email")
       res.end()
     }
 
     else{
-      artistCheck(result)
+      res.json(result);
+    }
+  });
+});
+
+app.post('/api/loginToGetArist', function(req, res){
+  var sql_query_string = "SELECT artist_name \
+                          FROM Music_App.User_Artist UA, Music_App.Artists A \
+                          WHERE UA.email = ? AND UA.aid = A.aid";
+
+  var email = req.body.email
+
+  db.query(sql_query_string, [email], function (err, result) {
+    if (err) throw err;
+    //res.json(result);
+    //res.end();
+
+    if (result.length == 0){
+      res.json("no artists")
+      res.end()
+    }
+
+    else{
+      res.json(result)
     }
 
   });
-  function artistCheck(query_result){
-    var sql_query_string = "SELECT artist_name \
-                            FROM Music_App.User_Artist UA, Music_App.Artists A \
-                            WHERE UA.email = ? AND UA.aid = A.aid";
-
-    var raw_email = query_result[0].email;
-    db.query(sql_query_string, [raw_email], function (err, result) {
-      if (err) throw err;
-
-      if (result.length == 0){
-        res.json([query_result,"no artists"])
-      }
-
-      else{
-        res.json([query_result,result]);
-      }
-      res.end()
-    });
-  }
-
 });
 
 app.post('/api/userArtistSubmission', function(req,res){

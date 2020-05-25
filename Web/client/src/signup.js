@@ -35,7 +35,8 @@ test(){
   console.log(this.state);
   var user={
     email:this.state.email,
-    password:this.state.password//bcrypt.hashSync(this.state.password)
+    //password:this.state.password
+    password:bcrypt.hashSync(this.state.password)
   }
   //console.log(user);
   var url="/api/signup";

@@ -63,7 +63,7 @@ test(){
 
 
   render(){
-
+    console.log("prof state says",this.props.location.state)
     var email = this.state.email
     var artists = this.state.artists
     var all_artists_string = ""

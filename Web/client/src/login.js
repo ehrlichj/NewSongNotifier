@@ -104,9 +104,7 @@ verify(){
     else{
       alert("Invalid Password")
     }
-
   }
-
 }
 
 

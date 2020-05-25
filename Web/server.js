@@ -51,8 +51,6 @@ app.post('/api/loginToVerify', function(req, res){
     if (err) throw err;
     //res.json(result);
     //res.end();
-    console.log("loginToVerify says",result);
-
     if (result.length == 0){
       res.json("No User By That Email")
       res.end()
@@ -73,9 +71,6 @@ app.post('/api/loginToGetArist', function(req, res){
 
   db.query(sql_query_string, [email], function (err, result) {
     if (err) throw err;
-    //res.json(result);
-    //res.end();
-
     if (result.length == 0){
       res.json("no artists")
       res.end()

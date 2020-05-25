@@ -35,7 +35,6 @@ test(){
   console.log(this.state);
   var user={
     email:this.state.email,
-    //password:this.state.password
     password:bcrypt.hashSync(this.state.password)
   }
   //console.log(user);
@@ -69,33 +68,33 @@ test(){
       this.props.history.push("/profile",this.state.query);
     }
     return(
-      <>
-      <center>
+    <>
+
       <div className= "HeaderInfo" id="TitleTextSignUp">
       Sign Up!
       </div>
+      <center>
+      <div className = "FormWrap">
+
+        <div className="FormField">
+          <label className= "FormField_Label" >Username </label>
+          <input onChange={this.handleChange} className= "FormField_Input" placeholder= "your email" type="text" name="Email" />
+        </div>
+
+        <div className="FormField">
+          <label className= "FormField_Label">Password </label>
+          <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
+        </div>
+
+      </div>
 
 
-    <form className= "FormFields">
-
-    <div className="FormField">
-      <label className= "FormField_Label" >Username </label>
-      <input onChange={this.handleChange} className= "FormField_Input" placeholder= "your email" type="text" name="Email" />
-    </div>
-
-    <div className="FormField">
-      <label className= "FormField_Label">Password </label>
-      <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
-    </div>
-    <div className = "buttonsDiv">
-        <Button onClick={this.test} className= "Button" >Sign Up </Button>
-        <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
-    </div>
-    </form>
+      <div className = "buttonsDiv">
+          <Button onClick={this.test} className= "Button" >Sign Up </Button>
+          <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
+      </div>
     </center>
-
-
-      </>
+    </>
     );
   }
 

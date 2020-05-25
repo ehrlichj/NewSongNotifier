@@ -1,21 +1,45 @@
-body {background-color: #2ECC40;}
+body{
+  text-align: center;
+  background-color: #2ECC40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .HeaderInfo{
   font-size: 30px;
   padding: 10px 30px;
+  text-align: center;
 }
 
-.FormField_Input{
-  font-size: 25px;
+.FormWrap{
+  text-align: center
 }
 
 .FormField{
-  padding: 10px 30px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .FormField_Label{
+  display: block;
+  text-align: left;
   font-size: 25px;
 }
+
+.FormField_Input{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid white;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  font-size: 20px;
+  width: 300px;
+}
+
 
 .Button {
     background-color: white;
@@ -40,4 +64,5 @@ body {background-color: #2ECC40;}
 
   .buttonsDiv{
     padding: 20px 30px;
+    text-align: center;
   }

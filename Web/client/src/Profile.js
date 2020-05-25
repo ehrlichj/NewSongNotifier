@@ -1,7 +1,9 @@
 import React,{Component} from "react";
 import {Button} from "reactstrap";
 import {withRouter} from "react-router-dom";
+import "./css/GlobalCSS.css";
 const bcrypt = require('bcrypt-nodejs');
+
 
 class Profile extends Component {
   constructor(props){
@@ -11,7 +13,7 @@ class Profile extends Component {
     this.test=this.test.bind(this);
     this.state={
       email:this.props.location.state[0][0].email,
-      artists:this.props.location.state[1][0]
+      artists:this.props.location.state[1]
     }
 
   }
@@ -61,13 +63,22 @@ test(){
 
 
   render(){
+
     var email = this.state.email
-    var artists = this.state.artists.artist_name
+    var artists = this.state.artists
+    var all_artists_string = ""
+
+    for(var i = 0;i < artists.length;i++){
+      all_artists_string += artists[i].artist_name
+      if(i != artists.length -1){
+        all_artists_string += ", "
+      }
+    }
     return(
       <>
-      <div className= "FormTitle" id="TitleTextSignUp">
-      Profile for {email}<br></br>
-      Your current artists are : {artists}
+      <div className= "HeaderInfo" id="ProfileInfo">
+        Profile for {email}<br></br>
+        Your current artists are : {all_artists_string}
       </div>
 
       <center>

@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import {Button} from "reactstrap";
 import {withRouter} from "react-router-dom";
+import "./css/GlobalCSS.css";
 const bcrypt = require('bcrypt-nodejs');
 
 class Home extends Component {
@@ -24,11 +25,15 @@ class Home extends Component {
   render(){
     return(
       <>
-        <div className= "FormTitle" id="TitleTextSignUp">
+        <center>
+        <div className= "HeaderInfo" id="TitleTextSignUp">
           The Home Page
         </div>
-        <Button id = "Login"   onClick={this.routeChange}>Login</Button>
-        <Button id = "Sign Up" onClick={this.routeChange}>Sign Up</Button>
+        <div className = "buttonsDiv">
+        <Button id = "Login"   className = "Button" onClick={this.routeChange}>Login</Button>
+        <Button id = "Sign Up" className = "Button" onClick={this.routeChange}>Sign Up</Button>
+        </div>
+        </center>
       </>
     );
   }

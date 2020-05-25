@@ -1,7 +1,10 @@
 import React,{Component} from "react";
 import {Button} from "reactstrap";
 import {withRouter} from "react-router-dom";
+import "./css/GlobalCSS.css";
+
 const bcrypt = require('bcrypt-nodejs');
+
 
 class Login extends Component {
   constructor(props){
@@ -73,25 +76,27 @@ test(){
 
     return(
       <>
-      <div className= "FormTitle" id="TitleTextSignUp">
+      <center>
+      <div className= "HeaderInfo" id="TitleTextSignUp">
       Login!
       </div>
 
-      <center>
+
         <form className= "FormFields">
 
           <div className="FormField">
             <label className= "FormField_Label" >Username </label>
-            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Create a Username" type="text" name="Email" />
+            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "email" type="text" name="Email" />
           </div>
 
           <div className="FormField">
             <label className= "FormField_Label">Password </label>
-            <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
+            <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Password" type="Password" name="Password" />
           </div>
-
-          <Button onClick={this.test} className= "Buttons" >Login </Button>
-          <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
+          <div className = "buttonsDiv">
+            <Button onClick={this.test} className= "Button" >Login </Button>
+            <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
+          </div>
         </form>
       </center>
 

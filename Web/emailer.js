@@ -19,3 +19,5 @@ function sendEmail(receiver, artistName){
         content: artistName + " has released new music. Don't forget to check them out.",
     });
 }
+
+module.exports = {sendEmail};

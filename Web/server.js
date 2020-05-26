@@ -3,6 +3,7 @@ const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const spotifyApi = require('./spotify.js');
+const emailApi = require('./emailer.js')
 
 
 app.use(bodyParser.json());
@@ -160,11 +161,11 @@ app.post('/api/userArtistSubmission', function(req,res){
   }
 })
 
-setInterval(updateReleaseDates,12000000);
+//setInterval(updateReleaseDates,12000000);
 
 function updateReleaseDates(){
   console.log("hello");
-  var sql_query_string = "SELECT aid, last_album_uploaded_date FROM Music_App.Artists";
+  var sql_query_string = "SELECT aid, artist_name, last_album_uploaded_date FROM Music_App.Artists";
   db.query(sql_query_string, [], function(err, result){
     if(err) throw err;
     if(result.length ==0){
@@ -172,19 +173,19 @@ function updateReleaseDates(){
     }  
     else{
       for(var i=0; i<result.length; i++){
-        getRecentReleaseDate(result[i].aid, result[i].last_album_uploaded_date)
+        getRecentReleaseDate(result[i].aid, result[i].last_album_uploaded_date, result[i].artist_name)
       }
     }
   })
 
-  function getRecentReleaseDate(aid, db_release_date){
+  function getRecentReleaseDate(aid, db_release_date, artist_name){
     spotifyApi.mostRecentRelease(aid, function(ret){
       console.log("the return is: " ,ret.release_date);
-      updateRecentReleaseDate(aid, db_release_date, ret.release_date);
+      updateRecentReleaseDate(aid, db_release_date, ret.release_date, artist_name);
     });
   }
 
-  function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date){
+  function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date, artist_name){
     var db_rd = db_release_date; //Date object YYYY-MM-DD
     var sp_rd = new Date(spotify_release_date) // Date object YYYY-MM-DD
 
@@ -198,7 +199,21 @@ function updateReleaseDates(){
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
       db.query(sql_query_string, [sp_rd, artist_ID], function(err, result){
         if(err) throw err;
+        sendUserEmail(artist_ID, artist_name);
       });
+      function sendUserEmail(artist_ID, artist_name){
+        var sql_query_string = "SELECT email FROM Music_App.User_Artists WHERE aid =?";
+        db.query(sql_query_string, [artist_ID], function(err, result){
+          if(err) throw err;
+          if(result.length == 0){
+            console.log("no one is following the artistID: ", artist_ID);
+          }
+          for(var i=0; i<result.length; i++){
+            //send email
+            emailApi.sendEmail(result[i].email, artist_name);
+          }
+        })
+      }
     }
   }
 }

@@ -42,7 +42,7 @@ function searchArtists(artistName, callback){
           );
     }
 
- function mostRecentRelease(artistID){
+ function mostRecentRelease(artistID, callback){
     //const id =  searchArtists(artistName);
     //console.log(id);
 
@@ -74,7 +74,8 @@ function searchArtists(artistName, callback){
                 //console.log("Most Recent Album Name", data.body.items[album_num].name);
                 //console.log(data.body);
                 //console.log("Release Date", data.body.items[album_num].release_date);
-                return data.body.items[album_num];
+                //return data.body.items[album_num];
+                callback(data.body.items[album_num]);
             },
             function(err){
                 console.log(err);

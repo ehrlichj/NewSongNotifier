@@ -160,6 +160,51 @@ app.post('/api/userArtistSubmission', function(req,res){
   }
 })
 
+setInterval(updateReleaseDates,12000000);
+
+function updateReleaseDates(){
+  console.log("hello");
+  var sql_query_string = "SELECT aid, last_album_uploaded_date FROM Music_App.Artists";
+  db.query(sql_query_string, [], function(err, result){
+    if(err) throw err;
+    if(result.length ==0){
+      console.log("there are no artists in the Artists Table");
+    }  
+    else{
+      for(var i=0; i<result.length; i++){
+        getRecentReleaseDate(result[i].aid, result[i].last_album_uploaded_date)
+      }
+    }
+  })
+
+  function getRecentReleaseDate(aid, db_release_date){
+    spotifyApi.mostRecentRelease(aid, function(ret){
+      console.log("the return is: " ,ret.release_date);
+      updateRecentReleaseDate(aid, db_release_date, ret.release_date);
+    });
+  }
+
+  function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date){
+    var db_rd = db_release_date; //Date object YYYY-MM-DD
+    var sp_rd = new Date(spotify_release_date) // Date object YYYY-MM-DD
+
+    if(db_rd == null){
+      var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
+      db.query(sql_query_string, [sp_rd, artist_ID], function(err,result){
+        if(err) throw err;
+      })
+    }
+    else if(sp_rd > db_rd){
+      var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
+      db.query(sql_query_string, [sp_rd, artist_ID], function(err, result){
+        if(err) throw err;
+      });
+    }
+  }
+}
+
+//updateReleaseDates();
+
 const port = 5000;
 
 app.listen(port,()=> console.log("port 5000"));

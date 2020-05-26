@@ -25,9 +25,15 @@ function searchArtists(artistName, callback){
                       //console.log(data.body.artists.items[0]);
                       //console.log(data.body.artists.items[0].id);
                       //console.log(data.body.artists.items[0].id);
+                      if (data.body.artists.total == 0){
+                        callback("");
+                      }
+                      else{
                         callback(data.body.artists.items[0].id);
+                      }
+
                   }, function(err){
-                      console.error(err);
+                      console.error("oh boy",err);
                   })
             },
             function(err) {

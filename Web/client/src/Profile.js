@@ -13,6 +13,8 @@ class Profile extends Component {
     this.checkLocalArtistID=this.checkLocalArtistID.bind(this);
     this.addUserArtist=this.addUserArtist.bind(this);
     this.checkSpotify = this.checkSpotify.bind(this);
+    this.checkDuplicate = this.checkDuplicate.bind(this);
+    this.UpdateArtistOnPage = this.UpdateArtistOnPage.bind(this);
     this.state={
       email:this.props.location.state[0][0].email,
       artists:this.props.location.state[1]
@@ -31,6 +33,46 @@ class Profile extends Component {
   else if(value.target.id=="Home"){
     this.props.history.push("/home",this.props.history.location.state);
   }
+}
+
+checkDuplicate(){
+  var user={
+    email: this.state.email,
+    artist_name : this.state.artist_to_add,
+    artist_id : this.state.Spotify_Artist_ID_status
+  }
+  var url = "/api/userArtistSubmission"
+  const req = new Request(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user),
+  });
+  fetch(req)
+  .then((res)=>{
+    if(res.status===500){
+    res.json()
+    .then((json)=>{
+        const {message,stackTrace}=json;
+      })
+      .catch((error)=>{
+        return Promise.reject(error);
+      });
+    }
+    else{
+      return res.json();
+    }
+  })
+  .then(result => this.setState({Spotify_Artist_ID_status:result},this.UpdateArtistOnPage()));
+}
+
+UpdateArtistOnPage(){
+// must mutate array outside of set state then setState with new array
+  var current_artists = this.state.artists;
+  current_artists.push({artist_name:this.state.artist_to_add})
+  this.setState({artists:current_artists});
+  //to prevent reset on refresh, just update props with new state and send it
+  //where it already is, that way refresh reverts to updated state
+  this.props.history.push("/profile",this.props.history.location.state);
 }
 
 addUserArtist(){
@@ -61,10 +103,10 @@ addUserArtist(){
         return res.json();
       }
     })
-    .then(result => this.setState({Spotify_Artist_ID_status:result}));
+    .then(result => this.setState({Spotify_Artist_ID_status:result},this.UpdateArtistOnPage()));
   }
   else{
-    console.log("artist not found.");
+    alert("artist not found.");
   }
 
 
@@ -98,8 +140,11 @@ checkSpotify(){
     })
     .then(result => this.setState({Spotify_Artist_ID_status:result},()=> this.addUserArtist()));
   }
+  else if(this.state.Artist_ID_status === "User has already added this artist"){
+    alert("You already subscribe to this artist");
+  }
   else{
-    console.log("peen");
+    this.setState({},()=>this.UpdateArtistOnPage());
   }
 
 }
@@ -137,6 +182,7 @@ checkLocalArtistID(){
   render(){
     var email = this.state.email
     var artists = this.state.artists
+    console.log(artists);
     var all_artists_string = ""
     if (artists === "no artists" || artists.length == 0){ // from signup it returns a blank array,
                                                           // from query or login it returns the string

@@ -85,6 +85,7 @@ app.post('/api/loginToGetArist', function(req, res){
 app.post('/api/getArtistID', function(req,res){
   var artist_name = req.body.artist_name;
   spotifyApi.searchArtists(artist_name, function(ret){
+  console.log("the return is ",ret);
   if(ret.length == 0){
     res.json("artist not found.");
   }
@@ -110,16 +111,36 @@ app.post('/api/checkLocalArtists', function(req,res){
       res.end();
     }
     else{
-      InsertUserArtist(email,result[0].aid);
+      CheckInsertUserArtist(email,result[0].aid);
     }
   })
-  function InsertUserArtist(email,aid){
-    var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
+  function CheckInsertUserArtist(email,aid){
+    var sql_query_string = "SELECT * FROM Music_App.User_Artist WHERE email = ? AND aid = ?"
     db.query(sql_query_string, [email,aid], function (err, result){
       if(err) throw err;
+      if(result.length == 0){
+          InsertUserArtist(email,aid);
+      }
+      else{
+        res.json("User has already added this artist")
+        res.end()
+      }
+    })
+    function InsertUserArtist(email,aid){
+      var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
+      db.query(sql_query_string,[email,aid], function(err,result){
+        if(err) throw err;
+        if(result.length == 0){
+          res.json("check spotify");
+          res.end();
+        }
+        else{
+          CheckInsertUserArtist(email,result[0].aid);
+        }
+      })
       res.json("Successfuly Updated");
       res.end();
-    });
+    }
   }
 })
 

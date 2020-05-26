@@ -161,7 +161,7 @@ app.post('/api/userArtistSubmission', function(req,res){
   }
 })
 
-//setInterval(updateReleaseDates,12000000);
+//setInterval(updateReleaseDates,10000);
 
 function updateReleaseDates(){
   console.log("hello");
@@ -180,24 +180,33 @@ function updateReleaseDates(){
 
   function getRecentReleaseDate(aid, db_release_date, artist_name){
     spotifyApi.mostRecentRelease(aid, function(ret){
-      console.log("the return is: " ,ret.release_date);
+      //console.log("the return is: " ,ret.release_date);
       updateRecentReleaseDate(aid, db_release_date, ret.release_date, artist_name);
     });
   }
 
   function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date, artist_name){
-    var db_rd = db_release_date; //Date object YYYY-MM-DD
-    var sp_rd = new Date(spotify_release_date) // Date object YYYY-MM-DD
+    typeof(spotify_release_date);
+    var db_rd = new Date(db_release_date)
+    db_rd = db_rd.getTime();
+    var sp_rd = new Date(spotify_release_date)
+    //sp_rd = sp_rd.getTime();
+    console.log("DB EQUALS: ",db_rd)
+    console.log("SPOTIFY EQUALS:", sp_rd);
+    console.log("boolean expression:", db_rd - sp_rd);
+    console.log("\n -----------------------")
+    //sp_rd = sp_rd.getTime(); // Date object YYYY-MM-DD
 
-    if(db_rd == null){
+     if(db_release_date == null){
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
-      db.query(sql_query_string, [sp_rd, artist_ID], function(err,result){
+      db.query(sql_query_string, [spotify_release_date, artist_ID], function(err,result){
         if(err) throw err;
       })
-    }
+    } 
     else if(sp_rd > db_rd){
+      console.log(sp_rd)
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
-      db.query(sql_query_string, [sp_rd, artist_ID], function(err, result){
+      db.query(sql_query_string, [spotify_release_date, artist_ID], function(err, result){
         if(err) throw err;
         sendUserEmail(artist_ID, artist_name);
       });
@@ -215,7 +224,7 @@ function updateReleaseDates(){
         })
       }
     }
-  }
+  } 
 }
 
 //updateReleaseDates();

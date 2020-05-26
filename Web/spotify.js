@@ -70,7 +70,7 @@ function searchArtists(artistName, callback){
                         album_num = i;
                     }
                 }
-                console.log(d2.toString());
+                //console.log(d2.toString());
                 //console.log("Most Recent Album Name", data.body.items[album_num].name);
                 //console.log(data.body);
                 //console.log("Release Date", data.body.items[album_num].release_date);

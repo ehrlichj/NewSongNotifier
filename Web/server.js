@@ -84,6 +84,7 @@ app.post('/api/loginToGetArist', function(req, res){
 
 app.post('/api/getArtistID', function(req,res){
   var artist_name = req.body.artist_name;
+  console.log("Searching for aid for",artist_name);
   spotifyApi.searchArtists(artist_name, function(ret){
   console.log("the return is ",ret);
   if(ret.length == 0){
@@ -130,19 +131,12 @@ app.post('/api/checkLocalArtists', function(req,res){
       var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
       db.query(sql_query_string,[email,aid], function(err,result){
         if(err) throw err;
-        if(result.length == 0){
-          res.json("check spotify");
-          res.end();
-        }
-        else{
-          CheckInsertUserArtist(email,result[0].aid);
-        }
+        res.json("Successfuly Updated");
+        res.end();
       })
-      res.json("Successfuly Updated");
-      res.end();
     }
   }
-})
+});
 
 
 app.post('/api/userArtistSubmission', function(req,res){

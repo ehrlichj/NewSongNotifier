@@ -8,10 +8,10 @@ const bcrypt = require('bcrypt-nodejs');
 class Profile extends Component {
   constructor(props){
     super(props);
-    this.routeChange=this.routeChange.bind(this);
-    this.handleChange=this.handleChange.bind(this);
-    this.checkLocalArtistID=this.checkLocalArtistID.bind(this);
-    this.addUserArtist=this.addUserArtist.bind(this);
+    this.routeChange = this.routeChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.checkLocalArtistID = this.checkLocalArtistID.bind(this);
+    this.addUserArtist = this.addUserArtist.bind(this);
     this.checkSpotify = this.checkSpotify.bind(this);
     this.checkDuplicate = this.checkDuplicate.bind(this);
     this.UpdateArtistOnPage = this.UpdateArtistOnPage.bind(this);
@@ -66,10 +66,14 @@ checkDuplicate(){
 }
 
 UpdateArtistOnPage(){
+  console.log("the state before refresh",this.state);
 // must mutate array outside of set state then setState with new array
   var current_artists = this.state.artists;
   current_artists.push({artist_name:this.state.artist_to_add})
   this.setState({artists:current_artists});
+  this.setState({Artist_ID_status:""});
+  this.setState({Spotify_Artist_ID_status:""});
+
   //to prevent reset on refresh, just update props with new state and send it
   //where it already is, that way refresh reverts to updated state
   this.props.history.push("/profile",this.props.history.location.state);
@@ -113,6 +117,7 @@ addUserArtist(){
 }
 
 checkSpotify(){
+  console.log("Artist ID status",this.state.Artist_ID_status);
   if(this.state.Artist_ID_status === "check spotify"){
     var user={
       artist_name : this.state.artist_to_add
@@ -150,7 +155,7 @@ checkSpotify(){
 }
 
 checkLocalArtistID(){
-  console.log("status 1",this.state.Artist_ID_status);
+  console.log("Artist to add",this.state.artist_to_add);
   var user={
     email:this.state.email,
     artist_name : this.state.artist_to_add
@@ -212,11 +217,12 @@ checkLocalArtistID(){
         <form className= "FormFields">
 
           <div className="FormField">
-            <label className= "FormField_Label" > Artist to Add: </label>
-            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Create a Username" type="text" name="artist" />
+
+            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
+            <Button onClick={this.checkLocalArtistID} className= "Buttons" >Add </Button>
           </div>
 
-          <Button onClick={this.checkLocalArtistID} className= "Buttons" >Add </Button>
+
           <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
         </form>
       </center>

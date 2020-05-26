@@ -59,7 +59,7 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:[[this.state.email],[]]},()=> console.log("success")));
+  .then(query_result => this.setState({query:[[{email:this.state.email}],[]]},()=> console.log("success")));
 }
 
 

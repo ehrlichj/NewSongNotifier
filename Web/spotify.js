@@ -8,7 +8,7 @@ var redirectURL = 'http://localhost:5000';
 
 
 function searchArtists(artistName, callback){
-    console.log(artistName);
+    console.log("The artist is ",artistName);
     var spotifyApi = new SpotifyWebApi({
             clientId: client_id,
             clientSecret: client_secret,

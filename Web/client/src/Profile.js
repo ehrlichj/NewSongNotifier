@@ -10,7 +10,9 @@ class Profile extends Component {
     super(props);
     this.routeChange=this.routeChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
-    this.test=this.test.bind(this);
+    this.checkLocalArtistID=this.checkLocalArtistID.bind(this);
+    this.addUserArtist=this.addUserArtist.bind(this);
+    this.checkSpotify = this.checkSpotify.bind(this);
     this.state={
       email:this.props.location.state[0][0].email,
       artists:this.props.location.state[1]
@@ -31,14 +33,83 @@ class Profile extends Component {
   }
 }
 
-test(){
+addUserArtist(){
+  if(this.state.Spotify_Artist_ID_status !== "artist not found."){
+    var user={
+      email: this.state.email,
+      artist_name : this.state.artist_to_add,
+      artist_id : this.state.Spotify_Artist_ID_status
+    }
+    var url = "/api/userArtistSubmission"
+    const req = new Request(url,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(user),
+    });
+    fetch(req)
+    .then((res)=>{
+      if(res.status===500){
+      res.json()
+      .then((json)=>{
+          const {message,stackTrace}=json;
+        })
+        .catch((error)=>{
+          return Promise.reject(error);
+        });
+      }
+      else{
+        return res.json();
+      }
+    })
+    .then(result => this.setState({Spotify_Artist_ID_status:result}));
+  }
+  else{
+    console.log("artist not found.");
+  }
+
+
+}
+
+checkSpotify(){
+  if(this.state.Artist_ID_status === "check spotify"){
+    var user={
+      artist_name : this.state.artist_to_add
+    }
+    var url = "/api/getArtistID"
+    const req = new Request(url,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(user),
+    });
+    fetch(req)
+    .then((res)=>{
+      if(res.status===500){
+      res.json()
+      .then((json)=>{
+          const {message,stackTrace}=json;
+        })
+        .catch((error)=>{
+          return Promise.reject(error);
+        });
+      }
+      else{
+        return res.json();
+      }
+    })
+    .then(result => this.setState({Spotify_Artist_ID_status:result},()=> this.addUserArtist()));
+  }
+  else{
+    console.log("peen");
+  }
+
+}
+
+checkLocalArtistID(){
   var user={
     email:this.state.email,
     artist_name : this.state.artist_to_add
   }
-  //console.log(user);
-  //var url="/api/userArtistSubmission";
-  var url = "/api/getArtistID"
+  var url = "/api/checkLocalArtists"
   const req = new Request(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -56,21 +127,17 @@ test(){
       });
     }
     else{
-      console.log("hello there");
       return res.json();
     }
   })
-  .then(result => this.setState({didItWork:result},()=> console.log(this.state.didItWork)));
+  .then(result => this.setState({Artist_ID_status:result},()=> this.checkSpotify()));
 }
 
 
   render(){
-    console.log("prof state says",this.props.location.state)
     var email = this.state.email
     var artists = this.state.artists
     var all_artists_string = ""
-
-    console.log(artists)
     if (artists === "no artists" || artists.length == 0){ // from signup it returns a blank array,
                                                           // from query or login it returns the string
                                                           // no artists :(
@@ -99,10 +166,10 @@ test(){
 
           <div className="FormField">
             <label className= "FormField_Label" > Artist to Add: </label>
-            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Create a Username" type="text" name="Email" />
+            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Create a Username" type="text" name="artist" />
           </div>
 
-          <Button onClick={this.test} className= "Buttons" >Add </Button>
+          <Button onClick={this.checkLocalArtistID} className= "Buttons" >Add </Button>
           <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
         </form>
       </center>

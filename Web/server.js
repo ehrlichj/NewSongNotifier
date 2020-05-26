@@ -82,47 +82,60 @@ app.post('/api/loginToGetArist', function(req, res){
 
   });
 });
+app.post('/api/getArtistID', function(req,res){
+  var artist_name = req.body.artist_name;
+  //console.log(artist_name);
 
-app.post('/api/userArtistSubmission', function(req,res){
+
+
+  console.log("hello");
+
+  spotifyApi.searchArtists(artist_name, function(ret){
+    console.log("DKLFJDLKF", ret);
+    if(ret.length == 0){
+      res.json("artist not found.");
+    }
+    else{
+      res.json(ret);
+    }
+    res.end();
+  });
+
+})
+
+app.post('/api/checkLocalArtists', function(req,res){
   var sql_query_string = "SELECT aid \
                           FROM Music_App.Artists A \
                           WHERE A.artist_name = ? ";
-
   var artist_name = req.body.artist_name;
-  var email = req.body.email;
 
   db.query(sql_query_string,[artist_name], function(err,result){
     if(err) throw err;
     console.log("the backend says: ", result);
-
-    //artist does not exist in Artists table must get artist_id from spotify.
     if(result.length == 0){
-      var artist_id = spotifyApi.searchArtists(artist_name);
-      var release_date = spotifyApi.mostRecentRelease(artist_id).release_date;
-      insertArtist(artist_id, artist_name, release_date);
-      insertUserArtist(email, artist_id);
+      res.json("check spotify");
     }
-    else{ //artist does exist in the Artists table. Insert new row into User_Artists.
-      insertUserArtist(email, result[0].aid);
+    else{
+      res.json(result);
     }
+    res.end();
+  })
+})
+
+
+app.post('/api/userArtistSubmission', function(req,res){
+  var email = req.body.email;
+  var artist_id = req.body.artist_id;
+
+  var sql_query_string = "INSERT INTO Music_App.User_Artist(?,?)";
+
+
+  db.query(sql_query_string, [email,artist_id], function (err, result){
+    if(err) throw err;
+    res.json("artist succesfully added");
+    res.end();
   });
-  function insertArtist(artist_id, artist_name, release_date){
-    var sql_query_string = "INSERT INTO Music_App.Artists (?, ?, ?)";
-
-    db.query(sql_query_string, [artist_id, artist_name, release_date], function(err,result){
-      if(err) throw err;
-      console.log("succesfully inserted new Artist");
-    })
-  }
-
-  function insertUserArtist(email, artist_id){
-    var sql_query_string = "INSERT INTO Music.App.User_Artist (?,?)";
-
-    db.query(sql_query_string, [email, artist_id], function(err, result){
-      if(err) throw err;
-      console.log("succesfully inserted new User_Artist");
-    })
-  }
+  
 })
 //db.end();
 

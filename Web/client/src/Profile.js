@@ -37,7 +37,8 @@ test(){
     artist_name : this.state.artist_to_add
   }
   //console.log(user);
-  var url="/api/userArtistSubmission";
+  //var url="/api/userArtistSubmission";
+  var url = "/api/getArtistID"
   const req = new Request(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -55,10 +56,11 @@ test(){
       });
     }
     else{
+      console.log("hello there");
       return res.json();
     }
   })
-  .then(result => this.setState({didItWork:result},()=> console.log("fin")));
+  .then(result => this.setState({didItWork:result},()=> console.log(this.state.didItWork)));
 }
 
 

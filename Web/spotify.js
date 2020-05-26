@@ -7,7 +7,8 @@ var client_secret = 'b22cf3d5fb5947cea703555ba49a3afc';
 var redirectURL = 'http://localhost:5000';
 
 
-function searchArtists(artistName){
+function searchArtists(artistName, callback){
+    console.log(artistName);
     var spotifyApi = new SpotifyWebApi({
             clientId: client_id,
             clientSecret: client_secret,
@@ -18,11 +19,13 @@ function searchArtists(artistName){
               // Save the access token so that it's used in future calls
               //console.log(data.;
               spotifyApi.setAccessToken(data.body.access_token);
-              console.log(spotifyApi.getAccessToken())
+              //console.log(spotifyApi.getAccessToken())
               spotifyApi.searchArtists(artistName).then(
                   function(data){
-                      console.log(data.body.artists.items[0]);
-                      return data.body.artists.items[0].external_urls.id;
+                      //console.log(data.body.artists.items[0]);
+                      //console.log(data.body.artists.items[0].id);
+                      //console.log(data.body.artists.items[0].id);
+                        callback(data.body.artists.items[0].id);
                   }, function(err){
                       console.error(err);
                   })
@@ -62,9 +65,9 @@ function searchArtists(artistName){
                     }
                 }
                 console.log(d2.toString());
-                console.log("Most Recent Album Name", data.body.items[album_num].name);
-
-                console.log("Release Date", data.body.items[album_num].release_date);
+                //console.log("Most Recent Album Name", data.body.items[album_num].name);
+                //console.log(data.body);
+                //console.log("Release Date", data.body.items[album_num].release_date);
                 return data.body.items[album_num];
             },
             function(err){
@@ -77,7 +80,8 @@ function searchArtists(artistName){
         }
       );
 }
-//searchArtists("Picture This");
-mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
+//searchArtists("Picture This", () => console.log("finished"));
+
+//mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
 
 module.exports = {searchArtists, mostRecentRelease};

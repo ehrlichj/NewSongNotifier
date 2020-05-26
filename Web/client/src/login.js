@@ -63,7 +63,7 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:query_result},()=> this.verify()));
+  .then(query_result => this.setState({query:query_result},() => this.verify()));
 }
 
 verify(){

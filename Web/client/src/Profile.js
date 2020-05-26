@@ -29,10 +29,10 @@ class Profile extends Component {
   routeChange(value){
     if (value.target.id=="Back"){
         this.props.history.push("/",this.props.history.location.state);
-  }
-  else if(value.target.id=="Home"){
-    this.props.history.push("/home",this.props.history.location.state);
-  }
+    }
+    else if(value.target.id=="Home"){
+      this.props.history.push("/home",this.props.history.location.state);
+    }
 }
 
 checkDuplicate(){
@@ -150,6 +150,7 @@ checkSpotify(){
 }
 
 checkLocalArtistID(){
+  console.log("status 1",this.state.Artist_ID_status);
   var user={
     email:this.state.email,
     artist_name : this.state.artist_to_add
@@ -182,7 +183,7 @@ checkLocalArtistID(){
   render(){
     var email = this.state.email
     var artists = this.state.artists
-    console.log(artists);
+    //console.log("the state is",this.state);
     var all_artists_string = ""
     if (artists === "no artists" || artists.length == 0){ // from signup it returns a blank array,
                                                           // from query or login it returns the string

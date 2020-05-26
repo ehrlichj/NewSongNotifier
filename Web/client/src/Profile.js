@@ -219,11 +219,11 @@ checkLocalArtistID(){
           <div className="FormField">
 
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
-            <Button onClick={this.checkLocalArtistID} className= "Buttons" >Add </Button>
+            <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
           </div>
 
 
-          <Button className="Buttons" id="Back" onClick={this.routeChange}>Back</Button>
+          <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
         </form>
       </center>
 

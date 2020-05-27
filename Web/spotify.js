@@ -75,6 +75,7 @@ function searchArtists(artistName, callback){
                 //console.log(data.body);
                 //console.log("Release Date", data.body.items[album_num].release_date);
                 //return data.body.items[album_num];
+                console.log(data.body.items[album_num]);
                 callback(data.body.items[album_num]);
             },
             function(err){
@@ -89,6 +90,6 @@ function searchArtists(artistName, callback){
 }
 //searchArtists("Picture This", () => console.log("finished"));
 
-//mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW');
+mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("hello there"));
 
 module.exports = {searchArtists, mostRecentRelease};

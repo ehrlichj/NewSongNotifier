@@ -166,7 +166,7 @@ app.post('/api/userArtistSubmission', function(req,res){
   }
 })
 
-//setInterval(updateReleaseDates,10000);
+setInterval(updateReleaseDates,2000);
 
 function updateReleaseDates(){
   var sql_query_string = "SELECT aid, artist_name, last_album_uploaded_date FROM Music_App.Artists";
@@ -191,6 +191,7 @@ function updateReleaseDates(){
 
   function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date, artist_name){
     var db_rd = new Date(db_release_date)
+    var db_rd_zoneOffset = db_rd.getTimezoneOffset() * 60 * 1000;
     db_rd = db_rd.getTime();
     var sp_rd = new Date(spotify_release_date)
     sp_rd = sp_rd.getTime();
@@ -200,7 +201,8 @@ function updateReleaseDates(){
     console.log("Database Release Date (String): ", db_release_date);
     console.log("Spotify  Release Date (String): ", spotify_release_date);
 
-    console.log("Database Release Date (Get Time): ", db_rd);
+    console.log("Database Release Date(offset): ", db_rd_zoneOffset);
+    console.log("Database Release Date (Get Time): ", db_rd - db_rd_zoneOffset);
     console.log("Spotify  Release Date (Get Time): ", sp_rd);
     console.log("\n -----------------------")
 
@@ -229,8 +231,8 @@ function updateReleaseDates(){
             console.log("no one is following the artistID: ", artist_ID);
           }
           for(var i=0; i<result.length; i++){
-            console.log("simulate send email",result[i].email);
-            //emailApi.sendEmail(result[i].email, artist_name);
+           // console.log("send email to: ",result[i].email);
+            emailApi.sendEmail(result[i].email, artist_name);
           }
         })
       }
@@ -239,7 +241,7 @@ function updateReleaseDates(){
 }
 
 
-updateReleaseDates();
+//updateReleaseDates();
 
 
 const port = 5000;

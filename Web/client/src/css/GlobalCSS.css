@@ -66,3 +66,16 @@ body{
     padding: 20px 30px;
     text-align: center;
   }
+  .HomePageHeader{
+    margin: auto;
+    font-size: 30px;
+    width: 50%;
+    padding: 10px;
+  }
+
+  .HomePageWrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

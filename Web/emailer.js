@@ -18,7 +18,7 @@ function sendEmail(receiver, artistName){
         subject: artistName + ' new music',
         content: artistName + " has released new music. Don't forget to check them out.",
     });
-    console.log("email send to ", receiver);
+    console.log("email sent to ", receiver);
 }
 
 module.exports = {sendEmail};

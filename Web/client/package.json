@@ -15,6 +15,7 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
+    "react-dropdown": "^1.7.0",
     "react-jax": "^1.1.0",
     "react-latex": "^1.2.0",
     "react-latex-next": "^1.1.0",

@@ -1,17 +1,18 @@
 body{
   text-align: center;
-  background-color: #ccfcc4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #ccfcc4;
 }
 
 
 .HeaderInfo{
   font-size: 30px;
-  padding: 10px 30px;
+  padding: 15px 15px;
   text-align: center;
+  font-family: FuturaBookFont___;
 }
 
 .FormWrap{
@@ -43,16 +44,17 @@ body{
 
 .Button {
     background-color: white;
+    font-family: FuturaBookFont___;
     color: Black;
     padding: 10px 30px;
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
 
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     font-size: 15px;
   }
 
@@ -67,15 +69,70 @@ body{
     text-align: center;
   }
   .HomePageHeader{
+    font-family: FuturaBookFont___;
     margin: auto;
-    font-size: 30px;
-    width: 50%;
+    font-size: 40px;
+    width: 75%;
     padding: 10px;
   }
 
-  .HomePageWrapper{
+  .HomePagedesc{
+    font-family: FuturaBookFont___;
+    margin: auto;
+    font-size: 30px;
+    width: 75%;
+    padding: 10px;
+  }
+
+  .CenterWrapper{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .HomeCenterWrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .ArtistsDisplayWrapper{
+    font-family:"FuturaBookFont___";
+    text-align: left;
+    padding: 10px 10px;
+  }
+  .ArtistDisplayElement{
+    font-family:"FuturaBookFont___";
+    padding: 10px 10px;
+  }
+
+  .FakeDropDown{
+    background-color: white;
+    font-family: FuturaBookFont___;
+    color: Black;
+    padding: 10px 30px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+  }
+
+  .FakeDropDown:hover {
+    color: #White;
+    cursor: pointer;
+  }
+
+  @font-face {
+      font-family:"FuturaBookFont___";
+      src: url("./fonts/FuturaBookFont___.TTF");
+  }
+
+  #SignButton{
+    width:60%;
   }

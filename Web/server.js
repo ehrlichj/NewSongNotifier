@@ -28,6 +28,9 @@ db.connect(function(err){
   console.log("conneted!");
 });
 
+function MinutesToMilleSeconds(min){
+    return min*60*1000;
+}
 
 app.post('/api/signup', function(req, res){
 
@@ -90,9 +93,9 @@ app.post('/api/loginToGetArist', function(req, res){
 
 app.post('/api/getArtistID', function(req,res){
   var artist_name = req.body.artist_name;
-  console.log("Searching for aid for",artist_name);
+  //console.log("Searching for aid for",artist_name);
   spotifyApi.searchArtists(artist_name, function(ret){
-  console.log("the return is ",ret);
+  //console.log("the return is ",ret);
   if(ret.length == 0){
     res.json("artist not found.");
   }
@@ -166,7 +169,7 @@ app.post('/api/userArtistSubmission', function(req,res){
   }
 })
 
-setInterval(updateReleaseDates,2000);
+setInterval(updateReleaseDates,MinutesToMilleSeconds(15));
 
 function updateReleaseDates(){
   var sql_query_string = "SELECT aid, artist_name, last_album_uploaded_date FROM Music_App.Artists";
@@ -196,6 +199,7 @@ function updateReleaseDates(){
     var sp_rd = new Date(spotify_release_date)
     sp_rd = sp_rd.getTime();
 
+    /*
     console.log("Artist In DB:",artist_name);
 
     console.log("Database Release Date (String): ", db_release_date);
@@ -205,6 +209,7 @@ function updateReleaseDates(){
     console.log("Database Release Date (Get Time): ", db_rd - db_rd_zoneOffset);
     console.log("Spotify  Release Date (Get Time): ", sp_rd);
     console.log("\n -----------------------")
+    */
 
 
     //sp_rd = sp_rd.getTime(); // Date object YYYY-MM-DD
@@ -217,7 +222,7 @@ function updateReleaseDates(){
     }
 
     else if(sp_rd > db_rd){
-      console.log("Updating Artist",artist_name);
+      //console.log("Updating Artist",artist_name);
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
       db.query(sql_query_string, [spotify_release_date, artist_ID], function(err, result){
         if(err) throw err;

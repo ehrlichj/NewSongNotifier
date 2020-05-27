@@ -8,7 +8,7 @@ var redirectURL = 'http://localhost:5000';
 
 
 function searchArtists(artistName, callback){
-    console.log("The artist is ",artistName);
+    //console.log("The artist is ",artistName);
     var spotifyApi = new SpotifyWebApi({
             clientId: client_id,
             clientSecret: client_secret,
@@ -90,6 +90,6 @@ function searchArtists(artistName, callback){
 }
 //searchArtists("Picture This", () => console.log("finished"));
 
-mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("hello there"));
+//mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("hello there"));
 
 module.exports = {searchArtists, mostRecentRelease};

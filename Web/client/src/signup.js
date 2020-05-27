@@ -67,33 +67,29 @@ test(){
     if (this.state.query != null){
       this.props.history.push("/profile",this.state.query);
     }
+    var leftarrow = "\u2190"
     return(
     <>
-
+    <div className = "CenterWrapper">
       <div className= "HeaderInfo" id="TitleTextSignUp">
       Sign Up!
       </div>
-      <center>
+
       <div className = "FormWrap">
 
         <div className="FormField">
-          <label className= "FormField_Label" >Username </label>
-          <input onChange={this.handleChange} className= "FormField_Input" placeholder= "your email" type="text" name="Email" />
+          <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Email" type="text" name="Email" />
         </div>
 
         <div className="FormField">
-          <label className= "FormField_Label">Password </label>
           <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
         </div>
 
-      </div>
+        <Button className="Button" id="Back" onClick={this.routeChange}>{leftarrow}</Button>
+        <Button onClick={this.test} className= "Button" id = "SignButton">Note-ify Me! </Button>
 
-
-      <div className = "buttonsDiv">
-          <Button onClick={this.test} className= "Button" >Sign Up </Button>
-          <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
       </div>
-    </center>
+    </div>
     </>
     );
   }

@@ -114,33 +114,30 @@ verify(){
           this.props.history.push("/profile",this.state.query);
       }
     }
+    var leftarrow = "\u2190"
 
     return(
       <>
-      <center>
-      <div className= "HeaderInfo" id="TitleTextSignUp">
-      Login!
-      </div>
-
-
-        <form className= "FormFields">
-
-          <div className="FormField">
-            <label className= "FormField_Label" >Username </label>
-            <input onChange={this.handleChange} className= "FormField_Input" placeholder= "email" type="text" name="Email" />
+        <div className = "CenterWrapper">
+          <div className= "HeaderInfo" id="TitleTextSignUp">
+          Login!
           </div>
 
-          <div className="FormField">
-            <label className= "FormField_Label">Password </label>
-            <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Password" type="Password" name="Password" />
-          </div>
-          <div className = "buttonsDiv">
-            <Button onClick={this.test} className= "Button" >Login </Button>
-            <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
-          </div>
-        </form>
-      </center>
+          <form className= "FormFields">
 
+            <div className="FormField">
+              <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Email" type="text" name="Email" />
+            </div>
+
+            <div className="FormField">
+              <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Password" type="Password" name="Password" />
+            </div>
+
+            <Button className="Button" id="Back" onClick={this.routeChange}>{leftarrow}</Button>
+            <Button onClick={this.test} className= "Button" id = "SignButton" >Login </Button>
+
+          </form>
+        </div>
 
       </>
     );

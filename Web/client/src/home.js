@@ -25,14 +25,21 @@ class Home extends Component {
   render(){
     return(
       <>
-      <div className="HomePageWrapper">
-      <div className= "HomePageHeader" id = "TitleTextSignUp">
+      <div className="HomeCenterWrapper">
+
+        <div className= "HomePageHeader" id = "TitleTextSignUp">
           Note-ify
-          </div>
-        <div className = "buttonsDiv">
-        <Button id = "Login"   className = "Button" onClick={this.routeChange}>Login</Button>
-        <Button id = "Sign Up" className = "Button" onClick={this.routeChange}>Sign Up</Button>
         </div>
+
+        <div className= "HomePagedesc" id = "TitleTextSignUp">
+          Know When You Favortie Artists Release Thier Latest Hits!
+        </div>
+
+        <div className = "buttonsDiv">
+          <Button id = "Login"   className = "Button" onClick={this.routeChange}>Login</Button>
+          <Button id = "Sign Up" className = "Button" onClick={this.routeChange}>Sign Up</Button>
+        </div>
+
       </div>
       </>
     );

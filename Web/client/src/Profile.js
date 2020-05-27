@@ -2,6 +2,10 @@ import React,{Component} from "react";
 import {Button} from "reactstrap";
 import {withRouter} from "react-router-dom";
 import "./css/GlobalCSS.css";
+//import Dropdown from 'react-dropdown';
+import { Dropdown, DropdownMenu } from 'reactstrap';
+
+import 'react-dropdown/style.css';
 const bcrypt = require('bcrypt-nodejs');
 
 
@@ -15,9 +19,16 @@ class Profile extends Component {
     this.checkSpotify = this.checkSpotify.bind(this);
     this.checkDuplicate = this.checkDuplicate.bind(this);
     this.UpdateArtistOnPage = this.UpdateArtistOnPage.bind(this);
+    this.toggle = this.toggle.bind(this);
+
+    this.test = this.test.bind(this);
+    this.test2 = this.test2.bind(this);
+
     this.state={
       email:this.props.location.state[0][0].email,
-      artists:this.props.location.state[1]
+      artists:this.props.location.state[1],
+      dropdownOpen:false,
+      value:"Your Artists"
     }
 
   }
@@ -33,6 +44,22 @@ class Profile extends Component {
     else if(value.target.id=="Home"){
       this.props.history.push("/home",this.props.history.location.state);
     }
+}
+
+toggle(event) {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+      value: event.currentTarget.textContent
+    });
+  }
+
+test(){
+  console.log("dropdown item selected");
+}
+
+
+test2(){
+  console.log("is this thing open?");
 }
 
 checkDuplicate(){
@@ -84,7 +111,7 @@ addUserArtist(){
     var user={
       email: this.state.email,
       artist_name : this.state.artist_to_add,
-      artist_id : this.state.Spotify_Artist_ID_status
+      artist_id : this.state.Spotify_Artist_ID_status,
     }
     var url = "/api/userArtistSubmission"
     const req = new Request(url,{
@@ -187,45 +214,45 @@ checkLocalArtistID(){
 
   render(){
     var email = this.state.email
-    var artists = this.state.artists
     //console.log("the state is",this.state);
-    var all_artists_string = ""
-    if (artists === "no artists" || artists.length == 0){ // from signup it returns a blank array,
-                                                          // from query or login it returns the string
-                                                          // no artists :(
-      all_artists_string = "You are not following any artists"
+    var MessageArrowDir = "Your Artitsts"
+    if(this.state.dropdownOpen){
+      MessageArrowDir += " \u25BC"
     }
 
     else{
-      all_artists_string = "Your current artists are: "
-      for(var i = 0;i < artists.length;i++){
-        all_artists_string += artists[i].artist_name
-        if(i != artists.length -1){
-          all_artists_string += ", "
-        }
-      }
+      MessageArrowDir += " \u25B2"
     }
+
+    var dropdown =
+
+    <Dropdown isOpen={this.state.dropdownOpen}>
+        <Button onClick={this.toggle} className = "FakeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>
+        {MessageArrowDir}
+        </Button>
+
+        <DropdownMenu>
+          <div className = "ArtistsDisplayWrapper">
+            {this.state.artists.map(artists =>
+              <div className = "ArtistDisplayElement">{artists.artist_name}</div>
+            )}
+          </div>
+        </DropdownMenu>
+    </Dropdown>
 
     return(
       <>
       <div className= "HeaderInfo" id="ProfileInfo">
-        Profile for {email}<br></br>
-        {all_artists_string}
+        Hey! {email}<br></br>
       </div>
 
-      <center>
         <form className= "FormFields">
-
           <div className="FormField">
-
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
             <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
           </div>
-
-
-          <Button className="Button" id="Back" onClick={this.routeChange}>Back</Button>
         </form>
-      </center>
+        {dropdown}
 
       </>
     );

@@ -6,6 +6,7 @@ const spotifyApi = require('./spotify.js');
 const emailApi = require('./emailer.js')
 
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -21,10 +22,12 @@ let db = mysql.createConnection({
   port: 3304
 });
 
+
 db.connect(function(err){
   if(err) throw err;
   console.log("conneted!");
 });
+
 
 app.post('/api/signup', function(req, res){
 
@@ -40,6 +43,7 @@ app.post('/api/signup', function(req, res){
   });
 
 });
+
 
 app.post('/api/loginToVerify', function(req, res){
   var sql_query_string = "SELECT * \
@@ -62,6 +66,7 @@ app.post('/api/loginToVerify', function(req, res){
     }
   });
 });
+
 
 app.post('/api/loginToGetArist', function(req, res){
   var sql_query_string = "SELECT artist_name \
@@ -164,13 +169,12 @@ app.post('/api/userArtistSubmission', function(req,res){
 //setInterval(updateReleaseDates,10000);
 
 function updateReleaseDates(){
-  console.log("hello");
   var sql_query_string = "SELECT aid, artist_name, last_album_uploaded_date FROM Music_App.Artists";
   db.query(sql_query_string, [], function(err, result){
-    if(err) throw err;
+    if (err) throw err;
     if(result.length ==0){
       console.log("there are no artists in the Artists Table");
-    }  
+    }
     else{
       for(var i=0; i<result.length; i++){
         getRecentReleaseDate(result[i].aid, result[i].last_album_uploaded_date, result[i].artist_name)
@@ -186,48 +190,57 @@ function updateReleaseDates(){
   }
 
   function updateRecentReleaseDate(artist_ID, db_release_date, spotify_release_date, artist_name){
-    typeof(spotify_release_date);
     var db_rd = new Date(db_release_date)
     db_rd = db_rd.getTime();
     var sp_rd = new Date(spotify_release_date)
-    //sp_rd = sp_rd.getTime();
-    console.log("DB EQUALS: ",db_rd)
-    console.log("SPOTIFY EQUALS:", sp_rd);
-    console.log("boolean expression:", db_rd - sp_rd);
+    sp_rd = sp_rd.getTime();
+
+    console.log("Artist In DB:",artist_name);
+
+    console.log("Database Release Date (String): ", db_release_date);
+    console.log("Spotify  Release Date (String): ", spotify_release_date);
+
+    console.log("Database Release Date (Get Time): ", db_rd);
+    console.log("Spotify  Release Date (Get Time): ", sp_rd);
     console.log("\n -----------------------")
+
+
     //sp_rd = sp_rd.getTime(); // Date object YYYY-MM-DD
 
-     if(db_release_date == null){
+    if(db_release_date == null){
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
       db.query(sql_query_string, [spotify_release_date, artist_ID], function(err,result){
         if(err) throw err;
-      })
-    } 
+        })
+    }
+
     else if(sp_rd > db_rd){
-      console.log(sp_rd)
+      console.log("Updating Artist",artist_name);
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
       db.query(sql_query_string, [spotify_release_date, artist_ID], function(err, result){
         if(err) throw err;
         sendUserEmail(artist_ID, artist_name);
-      });
+      })
       function sendUserEmail(artist_ID, artist_name){
-        var sql_query_string = "SELECT email FROM Music_App.User_Artists WHERE aid =?";
+        var sql_query_string = "SELECT email FROM Music_App.User_Artist WHERE aid =?";
         db.query(sql_query_string, [artist_ID], function(err, result){
           if(err) throw err;
           if(result.length == 0){
             console.log("no one is following the artistID: ", artist_ID);
           }
           for(var i=0; i<result.length; i++){
-            //send email
-            emailApi.sendEmail(result[i].email, artist_name);
+            console.log("simulate send email",result[i].email);
+            //emailApi.sendEmail(result[i].email, artist_name);
           }
         })
       }
     }
-  } 
+  }
 }
 
-//updateReleaseDates();
+
+updateReleaseDates();
+
 
 const port = 5000;
 

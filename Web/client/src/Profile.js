@@ -21,9 +21,6 @@ class Profile extends Component {
     this.UpdateArtistOnPage = this.UpdateArtistOnPage.bind(this);
     this.toggle = this.toggle.bind(this);
 
-    this.test = this.test.bind(this);
-    this.test2 = this.test2.bind(this);
-
     this.state={
       email:this.props.location.state[0][0].email,
       artists:this.props.location.state[1],
@@ -52,15 +49,6 @@ toggle(event) {
       value: event.currentTarget.textContent
     });
   }
-
-test(){
-  console.log("dropdown item selected");
-}
-
-
-test2(){
-  console.log("is this thing open?");
-}
 
 checkDuplicate(){
   var user={
@@ -93,7 +81,7 @@ checkDuplicate(){
 }
 
 UpdateArtistOnPage(){
-  console.log("the state before refresh",this.state);
+  //console.log("the state before refresh",this.state);
 // must mutate array outside of set state then setState with new array
   var current_artists = this.state.artists;
   current_artists.push({artist_name:this.state.True_Artist_Name})
@@ -144,7 +132,7 @@ addUserArtist(){
 }
 
 checkSpotify(){
-  console.log("Artist ID status",this.state.Artist_ID_status);
+  //console.log("Artist ID status",this.state.Artist_ID_status);
   if(this.state.Artist_ID_status === "check spotify"){
     var user={
       artist_name : this.state.artist_to_add
@@ -182,7 +170,7 @@ checkSpotify(){
 }
 
 checkLocalArtistID(){
-  console.log("Artist to add",this.state.artist_to_add);
+  //console.log("Artist to add",this.state.artist_to_add);
   var user={
     email:this.state.email,
     artist_name : this.state.artist_to_add

@@ -29,7 +29,9 @@ function searchArtists(artistName, callback){
                         callback("");
                       }
                       else{
-                        callback(data.body.artists.items[0].id);
+                        //console.log(data.body.artists.items[0].name);
+                        //callback(data.body.artists.items[0].id);
+                        callback([data.body.artists.items[0].id,data.body.artists.items[0].name]);
                       }
 
                   }, function(err){

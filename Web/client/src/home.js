@@ -32,7 +32,7 @@ class Home extends Component {
         </div>
 
         <div className= "HomePagedesc" id = "TitleTextSignUp">
-          Know When You Favortie Artists Release Thier Latest Hits!
+          Know When Your Favortie Artists Release Thier Latest Hits!
         </div>
 
         <div className = "buttonsDiv">

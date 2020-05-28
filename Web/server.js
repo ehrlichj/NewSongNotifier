@@ -97,7 +97,7 @@ app.post('/api/getArtistID', function(req,res){
   spotifyApi.searchArtists(artist_name, function(ret){
   //console.log("the return is ",ret);
   if(ret.length == 0){
-    res.json("artist not found.");
+    res.json(["artist not found.","artist not found."]);
   }
   else{
     res.json(ret);
@@ -108,7 +108,7 @@ app.post('/api/getArtistID', function(req,res){
 })
 
 app.post('/api/checkLocalArtists', function(req,res){
-  var sql_query_string = "SELECT aid \
+  var sql_query_string = "SELECT aid,artist_name \
                           FROM Music_App.Artists A \
                           WHERE A.artist_name = ? ";
   var artist_name = req.body.artist_name;

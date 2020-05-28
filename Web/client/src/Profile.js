@@ -96,7 +96,7 @@ UpdateArtistOnPage(){
   console.log("the state before refresh",this.state);
 // must mutate array outside of set state then setState with new array
   var current_artists = this.state.artists;
-  current_artists.push({artist_name:this.state.artist_to_add})
+  current_artists.push({artist_name:this.state.True_Artist_Name})
   this.setState({artists:current_artists});
   this.setState({Artist_ID_status:""});
   this.setState({Spotify_Artist_ID_status:""});
@@ -110,7 +110,7 @@ addUserArtist(){
   if(this.state.Spotify_Artist_ID_status !== "artist not found."){
     var user={
       email: this.state.email,
-      artist_name : this.state.artist_to_add,
+      artist_name : this.state.True_Artist_Name,
       artist_id : this.state.Spotify_Artist_ID_status,
     }
     var url = "/api/userArtistSubmission"
@@ -170,7 +170,7 @@ checkSpotify(){
         return res.json();
       }
     })
-    .then(result => this.setState({Spotify_Artist_ID_status:result},()=> this.addUserArtist()));
+    .then(result => this.setState({Spotify_Artist_ID_status:result[0],True_Artist_Name:result[1]},()=> this.addUserArtist()));
   }
   else if(this.state.Artist_ID_status === "User has already added this artist"){
     alert("You already subscribe to this artist");
@@ -251,8 +251,10 @@ checkLocalArtistID(){
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
             <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
           </div>
+          {dropdown}
+          <br/>
+          An email will be sent to you at the email above when your artist releases new music.
         </form>
-        {dropdown}
 
       </>
     );

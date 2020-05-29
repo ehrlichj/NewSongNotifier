@@ -16,7 +16,7 @@ function sendEmail(receiver, artistName){
         emailConfig: emailConfig,
         to: receiver,
         subject: artistName + ' new music',
-        content: artistName + " has released new music. Don't forget to check them out.",
+        content: artistName + " has released new music. Don't forget to checkout new music by" + artistName
     });
     console.log("email sent to ", receiver);
 }

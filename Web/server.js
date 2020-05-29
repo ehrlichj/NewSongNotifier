@@ -153,21 +153,36 @@ app.post('/api/userArtistSubmission', function(req,res){
   var artist_id = req.body.artist_id;
   var artist_name = req.body.artist_name
 
+  var sql_query_string = "SELECT * FROM Music_App.Artists WHERE aid = ?";
+  db.query(sql_query_string, [artist_id,artist_name,null], function(err, result){
+    if(err) throw err;
+    if(result.length==0){
+      InsertNewArtist(artist_id, artist_name);
+    }
+    else{
+      InsertUserArtist(email, artist_id);
+    }
+  })
+})
+
+function InsertNewArtist(artist_id, artist_name){
   var sql_query_string = "INSERT INTO Music_App.Artists VALUES (?,?,?)";
   db.query(sql_query_string, [artist_id,artist_name,null], function (err, result){
     if(err) throw err;
     InsertUserArtist(email,artist_id);
   });
-  function InsertUserArtist(email,aid){
-    console.log("here");
-    var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
-    db.query(sql_query_string, [email,aid], function (err, result){
-      if(err) throw err;
-      res.json("Successfuly Updated");
-      res.end();
-    });
-  }
-})
+}
+
+
+function InsertUserArtist(email,aid){
+  console.log("here");
+  var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
+  db.query(sql_query_string, [email,aid], function (err, result){
+    if(err) throw err;
+    res.json("Successfuly Updated");
+    res.end();
+  });
+}
 
 setInterval(updateReleaseDates,MinutesToMilleSeconds(15));
 

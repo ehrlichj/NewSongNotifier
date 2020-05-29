@@ -222,7 +222,7 @@ checkLocalArtistID(){
         <DropdownMenu>
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
-              <div className = "ArtistDisplayElement">{artists.artist_name}</div>
+              <div className = "ArtistDisplayElement"> {artists.artist_name}</div>
             )}
           </div>
         </DropdownMenu>

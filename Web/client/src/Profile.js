@@ -47,6 +47,15 @@ class Profile extends Component {
     }
 }
 
+handleRemove(){
+  console.log("Handle Remove says",this.state.Remove_Status);
+  if (this.state.Remove_Status === "Not subscribed to artist"){
+    alert("Not subscribed to artsit");
+  }
+  else if(this.state.Remove_Status === "Successfully removed"){
+    this.setState({},this.UpdateArtistOnPageRemove());
+  }
+}
 
 beginRemove(){
   var user={
@@ -74,8 +83,7 @@ beginRemove(){
       return res.json();
     }
   })
-  .then(result => console.log(result));
-
+  .then(result => this.setState({Remove_Status:result[0],artist_to_remove:result[1]},()=>this.handleRemove()));
 }
 
 
@@ -123,7 +131,7 @@ UpdateArtistOnPage(){
   current_artists.push({artist_name:this.state.True_Artist_Name})
   this.setState({artists:current_artists});
   this.setState({Artist_ID_status:""});
-  this.setState({Spotify_Artist_ID_status:""});
+  this.setState({Remove_Status:""});
 
   //to prevent reset on refresh, just update props with new state and send it
   //where it already is, that way refresh reverts to updated state
@@ -132,10 +140,25 @@ UpdateArtistOnPage(){
 
 UpdateArtistOnPageRemove(){
   var current_artists = this.state.artists;
+  var remove_me = this.state.artist_to_remove;
+  var store_index = 0;
+  var artist = ""
+
+  for(var i =0;i<current_artists.length;i++){
+    artist = current_artists[i].artist_name;
+    if(remove_me === artist){
+      store_index = i
+    }
+  }
+
+  current_artists.splice(store_index,1);
+
+  console.log("remove says",current_artists);
 
   this.setState({artists:current_artists});
-  this.setState({Artist_ID_status:""});
-  this.setState({Spotify_Artist_ID_status:""});
+  this.setState({artist_to_remove:""});
+  this.setState({Remove_Status:""});
+
 
   //to prevent reset on refresh, just update props with new state and send it
   //where it already is, that way refresh reverts to updated state
@@ -271,7 +294,7 @@ checkLocalArtistID(){
         <DropdownMenu>
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
-              <div className = "ArtistDisplayElement">{artists.artist_name}</div>
+              <div id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}</div>
             )}
           </div>
         </DropdownMenu>

@@ -264,7 +264,7 @@ function updateReleaseDates(){
   }
 }
 
-app.post("./api/removeUserArtist",function(req, res){
+app.post("/api/removeUserArtist",function(req, res){
   var email = req.body.email;
   var artist_name = req.body.artist_name;
 
@@ -273,7 +273,7 @@ app.post("./api/removeUserArtist",function(req, res){
     if(err) throw err;
     else{
       if(result.length == 0){
-        res.json(["Not subscribed to artist", "Not subscribed to artsit"]);
+        res.json(["Not subscribed to artist", "Not subscribed to artist"]);
         res.end();
       }
       else{
@@ -297,9 +297,10 @@ app.post("./api/removeUserArtist",function(req, res){
     }
 
     function removeUserArtist(email, artist_id, artist_name){
-      var sql_query_string = "REMOVE FROM Music_App.User_Artist WHERE aid = ? AND email = ?";
+      console.log("The backend says: ",email);
+      var sql_query_string = "DELETE FROM Music_App.User_Artist WHERE aid = ? AND email = ?";
 
-      db.query(sql_query_string, [email, artist_id], function(err, result){
+      db.query(sql_query_string, [artist_id, email], function(err, result){
         if(err) throw err;
         res.json(["Successfully removed", artist_name]);
         res.end();

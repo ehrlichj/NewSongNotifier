@@ -264,6 +264,49 @@ function updateReleaseDates(){
   }
 }
 
+app.post("./api/removeUserArtist",function(req, res){
+  var email = req.body.email;
+  var artist_name = req.body.artist_name;
+
+  var sql_query_string = "SELECT aid, artist_name FROM Music_App.Artists WHERE artist_name = ?";
+  db.query(sql_query_string, [artist_name], function(err, result){
+    if(err) throw err;
+    else{
+      if(result.length == 0){
+        res.json(["Not subscribed to artist", "Not subscribed to artsit"]);
+        res.end();
+      }
+      else{
+        checkUserArtist(email, result[0].aid, result[0].artist_name);
+        }
+      }
+    })
+    function checkUserArtist(email, artist_id, artist_name){
+      var sql_query_string = "SELECT email FROM Music_App.User_Artist WHERE email = ? AND aid = ?";
+
+      db.query(sql_query_string, [email, artist_id], function(err, result){
+        if(err) throw err;
+        if(result.length == 0){
+          res.json(["Not subscribed to artist","Not subscribed to artist"]);
+          res.end();
+        }
+        else{
+          removeUserArtist(email, artist_id, artist_name);
+        }
+      })
+    }
+
+    function removeUserArtist(email, artist_id, artist_name){
+      var sql_query_string = "REMOVE FROM Music_App.User_Artist WHERE aid = ? AND email = ?";
+
+      db.query(sql_query_string, [email, artist_id], function(err, result){
+        if(err) throw err;
+        res.json(["Successfully removed", artist_name]);
+        res.end();
+      })
+    }
+  })
+
 
 //updateReleaseDates();
 

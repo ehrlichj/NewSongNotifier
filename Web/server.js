@@ -117,30 +117,30 @@ app.post('/api/checkLocalArtists', function(req,res){
   db.query(sql_query_string,[artist_name], function(err,result){
     if(err) throw err;
     if(result.length == 0){
-      res.json("check spotify");
+      res.json(["check spotify","check spotify"]);
       res.end();
     }
     else{
-      CheckInsertUserArtist(email,result[0].aid);
+      CheckInsertUserArtist(email,result[0].aid,result[0].artist_name);
     }
   })
-  function CheckInsertUserArtist(email,aid){
+  function CheckInsertUserArtist(email,aid,artist_name){
     var sql_query_string = "SELECT * FROM Music_App.User_Artist WHERE email = ? AND aid = ?"
     db.query(sql_query_string, [email,aid], function (err, result){
       if(err) throw err;
       if(result.length == 0){
-          InsertUserArtist(email,aid);
+          InsertUserArtist(email,aid,artist_name);
       }
       else{
-        res.json("User has already added this artist")
+        res.json(["User has already added this artist","User has already added this artist"])
         res.end()
       }
     })
-    function InsertUserArtist(email,aid){
+    function InsertUserArtist(email,aid,artist_name){
       var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
       db.query(sql_query_string,[email,aid], function(err,result){
         if(err) throw err;
-        res.json("Successfuly Updated");
+        res.json(["Successfuly Updated",artist_name]);
         res.end();
       })
     }

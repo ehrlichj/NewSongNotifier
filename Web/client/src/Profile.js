@@ -19,6 +19,10 @@ class Profile extends Component {
     this.checkSpotify = this.checkSpotify.bind(this);
     this.checkDuplicate = this.checkDuplicate.bind(this);
     this.UpdateArtistOnPage = this.UpdateArtistOnPage.bind(this);
+    this.UpdateArtistOnPageRemove = this.UpdateArtistOnPageRemove.bind(this);
+    this.beginRemove = this.beginRemove.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+
     this.toggle = this.toggle.bind(this);
 
     this.state={
@@ -42,6 +46,38 @@ class Profile extends Component {
       this.props.history.push("/home",this.props.history.location.state);
     }
 }
+
+
+beginRemove(){
+  var user={
+    email: this.state.email,
+    artist_name : this.state.artist_to_add
+  }
+  var url = "/api/removeUserArtist"
+  const req = new Request(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user),
+  });
+  fetch(req)
+  .then((res)=>{
+    if(res.status===500){
+    res.json()
+    .then((json)=>{
+        const {message,stackTrace}=json;
+      })
+      .catch((error)=>{
+        return Promise.reject(error);
+      });
+    }
+    else{
+      return res.json();
+    }
+  })
+  .then(result => console.log(result));
+
+}
+
 
 toggle(event) {
     this.setState({
@@ -93,6 +129,19 @@ UpdateArtistOnPage(){
   //where it already is, that way refresh reverts to updated state
   this.props.history.push("/profile",this.props.history.location.state);
 }
+
+UpdateArtistOnPageRemove(){
+  var current_artists = this.state.artists;
+
+  this.setState({artists:current_artists});
+  this.setState({Artist_ID_status:""});
+  this.setState({Spotify_Artist_ID_status:""});
+
+  //to prevent reset on refresh, just update props with new state and send it
+  //where it already is, that way refresh reverts to updated state
+  this.props.history.push("/profile",this.props.history.location.state);
+}
+
 
 addUserArtist(){
   if(this.state.Spotify_Artist_ID_status !== "artist not found."){
@@ -196,7 +245,7 @@ checkLocalArtistID(){
       return res.json();
     }
   })
-  .then(result => this.setState({Artist_ID_status:result},()=> this.checkSpotify()));
+  .then(result => this.setState({Artist_ID_status:result[0],True_Artist_Name:result[1]},()=> this.checkSpotify()));
 }
 
 
@@ -222,7 +271,7 @@ checkLocalArtistID(){
         <DropdownMenu>
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
-              <div className = "ArtistDisplayElement"> {artists.artist_name}</div>
+              <div className = "ArtistDisplayElement">{artists.artist_name}</div>
             )}
           </div>
         </DropdownMenu>
@@ -238,6 +287,7 @@ checkLocalArtistID(){
           <div className="FormField">
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
             <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
+            <Button onClick={this.beginRemove} className= "Button" >Remove </Button>
           </div>
           {dropdown}
           <br/>

@@ -157,30 +157,34 @@ app.post('/api/userArtistSubmission', function(req,res){
   db.query(sql_query_string, [artist_id,artist_name,null], function(err, result){
     if(err) throw err;
     if(result.length==0){
-      InsertNewArtist(artist_id, artist_name);
+      InsertNewArtist(artist_id, artist_name)
     }
     else{
-      InsertUserArtist(email, artist_id);
+      InsertUserArtist(email, artist_id, function(ret){
+        res.json(ret);
+        res.end();
+      });
     }
   })
+  function InsertNewArtist(artist_id, artist_name){
+    var sql_query_string = "INSERT INTO Music_App.Artists VALUES (?,?,?)";
+    db.query(sql_query_string, [artist_id,artist_name,null], function (err, result){
+      if(err) throw err;
+      InsertUserArtist(email,artist_id, function(ret){
+        res.json(ret);
+        res.end();
+      });
+    });
+  }
 })
 
-function InsertNewArtist(artist_id, artist_name){
-  var sql_query_string = "INSERT INTO Music_App.Artists VALUES (?,?,?)";
-  db.query(sql_query_string, [artist_id,artist_name,null], function (err, result){
-    if(err) throw err;
-    InsertUserArtist(email,artist_id);
-  });
-}
 
-
-function InsertUserArtist(email,aid){
+function InsertUserArtist(email,aid, callback){
   console.log("here");
   var sql_query_string = "INSERT INTO Music_App.User_Artist VALUES (?,?)";
   db.query(sql_query_string, [email,aid], function (err, result){
     if(err) throw err;
-    res.json("Successfuly Updated");
-    res.end();
+    callback("Successfuly Updated");
   });
 }
 

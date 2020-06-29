@@ -248,21 +248,6 @@ function updateReleaseDates(){
     var sp_rd = new Date(spotify_release_date)
     sp_rd = sp_rd.getTime();
 
-    /*
-    console.log("Artist In DB:",artist_name);
-
-    console.log("Database Release Date (String): ", db_release_date);
-    console.log("Spotify  Release Date (String): ", spotify_release_date);
-
-    console.log("Database Release Date(offset): ", db_rd_zoneOffset);
-    console.log("Database Release Date (Get Time): ", db_rd - db_rd_zoneOffset);
-    console.log("Spotify  Release Date (Get Time): ", sp_rd);
-    console.log("\n -----------------------")
-    */
-
-
-    //sp_rd = sp_rd.getTime(); // Date object YYYY-MM-DD
-
     if(db_release_date == null){
       var sql_query_string = "UPDATE Music_App.Artists SET last_album_uploaded_date = ? WHERE aid = ?  ";
       db.query(sql_query_string, [spotify_release_date, artist_ID], function(err,result){
@@ -336,6 +321,15 @@ app.post("/api/removeUserArtist",function(req, res){
         res.end();
       })
     }
+  })
+
+app.post("api/getPlayerTracks", function(req,res){
+    var aid = req.aid;
+    spotifyApi.getAlbumTrackIDs(aid, function(ret){
+    res.json(ret);
+    res.end();
+    })
+
   })
 
 

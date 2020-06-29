@@ -324,10 +324,12 @@ app.post("/api/removeUserArtist",function(req, res){
   })
 
 app.post("/api/getPlayerTracks", function(req,res){
-    var aid = req.aid;
-    spotifyApi.getAlbumTrackIDs(aid, function(ret){
+    var artist_id = req.body.artist_id;
+    console.log("aid",artist_id);
+    spotifyApi.getAlbumTrackIDs(artist_id, function(ret){
       var rand_sample_choice = ret[0];
-      res.json(rand_sample_choice);
+      var choice_id = rand_sample_choice.substring(14);
+      res.json(choice_id);
       res.end();
     })
 

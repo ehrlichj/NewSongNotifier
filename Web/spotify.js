@@ -109,12 +109,12 @@ function getAlbumTrackIDs(artistID, callback){
               var tracks = data.body.items;
               //console.log(tracks.leg)
               for(var i =0; i<tracks.length; i++){
-                console.log(i)
-                console.log(tracks[i].uri)
+                //console.log(i)
+                //console.log(tracks[i].uri)
                 album_uris.push(tracks[i].uri)
               }
               //console.log(data.body.items)
-              console.log(album_uris);
+              //console.log(album_uris);
               callback(album_uris);
           },
           function(err){
@@ -131,7 +131,7 @@ function getAlbumTrackIDs(artistID, callback){
 }
 
 
-getAlbumTrackIDs('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("finished"))
+//getAlbumTrackIDs('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("finished"))
 //searchArtists("Picture This", () => console.log("finished"));
 
 //mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("hello there"));

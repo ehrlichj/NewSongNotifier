@@ -32,7 +32,6 @@ class SignUp extends Component {
 }
 
 test(){
-  console.log(this.state);
   var user={
     email:this.state.email,
     password:bcrypt.hashSync(this.state.password)
@@ -59,11 +58,12 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:[[{email:this.state.email}],[]],SignStatus:query_result},()=> console.log("success")));
+  .then(query_result => this.setState({query:[[{email:this.state.email}],[]],SignStatus:query_result},()=> console.log(query_result)));
 }
 
 
   render(){
+    console.log("Sign Status",this.state.SignStatus)
     if (this.state.SignStatus === "User Added"){
   	     this.props.history.push("/profile",this.state.query);
     }
@@ -72,7 +72,7 @@ test(){
         this.state.SignStatus = "";
 		    alert("Email Is Currently In Use");
 	  }
-    
+
     var leftarrow = "\u2190"
     return(
     <>

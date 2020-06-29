@@ -77,7 +77,7 @@ function searchArtists(artistName, callback){
                 //console.log(data.body);
                 //console.log("Release Date", data.body.items[album_num].release_date);
                 //return data.body.items[album_num];
-                console.log(data.body.items[album_num]);
+                console.log(data.body.items[4]);
                 callback(data.body.items[album_num]);
             },
             function(err){
@@ -90,6 +90,45 @@ function searchArtists(artistName, callback){
         }
       );
 }
+function getAlbumTrackIDs(albumID, callback){
+  var spotifyApi = new SpotifyWebApi({
+    clientId: client_id,
+    clientSecret: client_secret,
+    redirectUri: redirectURL
+  });
+  spotifyApi.clientCredentialsGrant().then(
+    function(data) {
+      // Save the access token so that it's used in future calls
+      spotifyApi.setAccessToken(data.body.access_token);
+      //console.log(id)
+      spotifyApi.getAlbumTracks(albumID).then(
+        function(data){
+            var album_uris = []
+            var tracks = data.body.items;
+            //console.log(tracks.leg)
+            for(var i =0; i<tracks.length; i++){
+              console.log(i)
+              console.log(tracks[i].uri)
+              album_uris.push(tracks[i].uri)
+            }
+            //console.log(data.body.items)
+            console.log(album_uris);
+            callback(album_uris);
+        },
+        function(err){
+            console.log(err);
+        }
+    )
+    },
+    function(err) {
+      console.log('Something went wrong when retrieving an access token', err);
+    }
+  );
+
+}
+
+
+//getAlbumTrackIDs('5RvSeWeeZHU1blLJqcOgnu', () => console.log("finished"))
 //searchArtists("Picture This", () => console.log("finished"));
 
 //mostRecentRelease('7jLSEPYCYQ5ssWU3BICqrW', () => console.log("hello there"));

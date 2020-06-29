@@ -55,7 +55,7 @@ function createNewUser(email,password){
 
   db.query(sql_query_string, [email,password], function (err, result) {
     if (err) throw err;
-    res.json(result);
+    res.json("User Added");
     res.end()
   });
   }

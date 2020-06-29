@@ -78,7 +78,7 @@ verify(){
         email:email
       }
       //console.log(user);
-      var url="/api/loginToGetArist";
+      var url="/api/getUserArtists";
       const req = new Request(url,{
         method:"POST",
         headers:{"Content-Type":"application/json"},

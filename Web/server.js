@@ -32,6 +32,20 @@ function MinutesToMilleSeconds(min){
     return min*60*1000;
 }
 
+app.post('/api/getUserArtists', function(req, res){
+  var sql_query_string = "SELECT A.aid,A.artist_name \
+                          FROM Music_App.User_Artist UA, Music_App.Artists A \
+                          WHERE UA.email = ? AND UA.aid = A.aid";
+
+  var email = req.body.email
+
+  db.query(sql_query_string, [email], function (err, result) {
+    if (err) throw err;
+    console.log("backend says",result);
+    res.json(result);
+  });
+});
+
 app.post('/api/signup', function(req, res){
 
   var email = req.body.email
@@ -85,7 +99,7 @@ app.post('/api/loginToVerify', function(req, res){
   });
 });
 
-
+/*
 app.post('/api/loginToGetArist', function(req, res){
   var sql_query_string = "SELECT artist_name \
                           FROM Music_App.User_Artist UA, Music_App.Artists A \
@@ -105,6 +119,7 @@ app.post('/api/loginToGetArist', function(req, res){
     }
   });
 });
+*/
 
 app.post('/api/getArtistID', function(req,res){
   var artist_name = req.body.artist_name;

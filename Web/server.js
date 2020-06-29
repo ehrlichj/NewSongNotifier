@@ -25,7 +25,7 @@ let db = mysql.createConnection({
 
 db.connect(function(err){
   if(err) throw err;
-  console.log("conneted!");
+  console.log("connected!");
 });
 
 function MinutesToMilleSeconds(min){
@@ -33,7 +33,7 @@ function MinutesToMilleSeconds(min){
 }
 
 app.post('/api/signup', function(req, res){
-  
+
   var email = req.body.email
   var password = req.body.password
 
@@ -41,6 +41,7 @@ app.post('/api/signup', function(req, res){
 
   db.query(sql_query_string, [email], function(err, result){
     if(err) throw err;
+    console.log(result);
     if(result.length == 0){
       createNewUser(email,password)
     }

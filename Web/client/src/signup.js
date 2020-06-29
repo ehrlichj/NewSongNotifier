@@ -59,13 +59,18 @@ test(){
       return res.json();
     }
   })
-  .then(query_result => this.setState({query:[[{email:this.state.email}],[]]},()=> console.log("success")));
+  .then(query_result => this.setState({query:[[{email:this.state.email}],[]],SignStatus:query_result},()=> console.log("success")));
 }
 
 
   render(){
     if (this.state.query != null){
-      this.props.history.push("/profile",this.state.query);
+	  if(this.state.SignStatus !== "Duplicate Email"){
+	     this.props.history.push("/profile",this.state.query);
+      }
+	  else{
+		alert("Email Is Currently In Use");
+	  }
     }
     var leftarrow = "\u2190"
     return(

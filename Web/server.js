@@ -33,18 +33,32 @@ function MinutesToMilleSeconds(min){
 }
 
 app.post('/api/signup', function(req, res){
-
-  var sql_query_string = "INSERT INTO Music_App.User VALUES (?,?)";
-
+  
   var email = req.body.email
   var password = req.body.password
 
+  var sql_query_string = "SELECT * From Music_App.User WHERE email=?";
+
+  db.query(sql_query_string, [email], function(err, result){
+    if(err) throw err;
+    if(result.length == 0){
+      createNewUser(email,password)
+    }
+    else{
+      res.json("Duplicate Email");
+      res.end();
+    }
+  })
+
+function createNewUser(email,password){
+  var sql_query_string = "INSERT INTO Music_App.User VALUES (?,?)";
+
   db.query(sql_query_string, [email,password], function (err, result) {
     if (err) throw err;
-    res.json(result);
+    res.json("User Added");
     res.end()
   });
-
+  }
 });
 
 

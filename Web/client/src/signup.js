@@ -64,14 +64,15 @@ test(){
 
 
   render(){
-    if (this.state.query != null){
-	  if(this.state.SignStatus !== "Duplicate Email"){
-	     this.props.history.push("/profile",this.state.query);
-      }
-	  else{
-		alert("Email Is Currently In Use");
-	  }
+    if (this.state.SignStatus === "User Added"){
+  	     this.props.history.push("/profile",this.state.query);
     }
+
+	  else if (this.state.SignStatus === "Duplicate Email"){
+        this.state.SignStatus = "";
+		    alert("Email Is Currently In Use");
+	  }
+    
     var leftarrow = "\u2190"
     return(
     <>

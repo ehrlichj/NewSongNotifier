@@ -40,9 +40,34 @@ class Profile extends Component {
    this.setState({artist_to_add: event.target.value});
  }
 
-playSample(event) {
-   event.preventDefault();
-   console.log(event.target.innerHTML)
+playSample(event,aid) {
+  event.preventDefault();
+  console.log("playSample says",aid);
+  var user={
+    artist_id:aid,
+  }
+  var url = "/api/getPlayerTracks"
+  const req = new Request(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user),
+  });
+  fetch(req)
+  .then((res)=>{
+    if(res.status===500){
+    res.json()
+    .then((json)=>{
+        const {message,stackTrace}=json;
+      })
+      .catch((error)=>{
+        return Promise.reject(error);
+      });
+    }
+    else{
+      return res.json();
+    }
+  })
+  .then(result => this.setState({track:result}));
  }
 
   routeChange(value){
@@ -312,7 +337,7 @@ checkLocalArtistID(){
 
   render(){
     var email = this.state.email
-    //console.log("the state is",this.state);
+    console.log("the state is",this.state);
     var MessageArrowDir = "Your Artitsts"
     if(this.state.dropdownOpen){
       MessageArrowDir += " \u25BC"
@@ -332,7 +357,7 @@ checkLocalArtistID(){
         <DropdownMenu>
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
-		<><div id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}<button onClick={(e) => {this.playSample(e)}}>{artists.aid}</button></div></>
+		<><div id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}<button onClick={(e) => {this.playSample(e,artists.aid)}}>{"\u25B6"}</button></div></>
             )}
           </div>
         </DropdownMenu>

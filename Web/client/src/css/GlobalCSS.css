@@ -1,8 +1,10 @@
-html {
-    height: 100%;
+html{
+  height: 100%;
 }
 
 body{
+  height: 100%;
+  min-height:100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -11,6 +13,9 @@ body{
   margin-top:auto;
   margin:0;
   padding:0;
+  min-height: 100%;
+  position: relative;
+  overflow-y: scroll;
 }
 
 .HeaderInfo{
@@ -48,7 +53,9 @@ body{
 
 .ArtistsDisplayWrapper{
 	font-family:"FuturaBookFont___";
-	padding: 10px 10px;
+  padding: 10px 10px;
+  height: 210px;
+  overflow-y: auto;
 }
 
 .ArtistLine{

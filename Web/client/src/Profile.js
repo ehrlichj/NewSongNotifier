@@ -339,7 +339,7 @@ checkLocalArtistID(){
     var CurrentSong = ""
 
     if (this.state.track != null){
-	CurrentSong = <iframe src={"https://open.spotify.com/embed/track/"+this.state.track} width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+	CurrentSong = <iframe src={"https://open.spotify.com/embed/track/"+this.state.track} width="300" height="280" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
     }
 
     else{

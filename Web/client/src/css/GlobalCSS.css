@@ -1,12 +1,17 @@
+html {
+    height: 100%;
+}
+
 body{
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: #ccfcc4;
+  margin-top:auto;
+  margin:0;
+  padding:0;
 }
-
 
 .HeaderInfo{
   font-size: 30px;
@@ -44,7 +49,6 @@ body{
 .ArtistsDisplayWrapper{
 	font-family:"FuturaBookFont___";
 	padding: 10px 10px;
-	overflow:hidden;
 }
 
 .ArtistLine{
@@ -52,8 +56,7 @@ body{
 	padding-top: 30px;
 	display:block;
 	vertical-align:middle;
-	line-height:50px;
-
+	line-height:55px;
 }
 
 .ArtistDisplayElement{

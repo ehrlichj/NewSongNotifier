@@ -369,7 +369,7 @@ checkLocalArtistID(){
         {MessageArrowDir}
         </Button>
 
-        <DropdownMenu>
+        <DropdownMenu className = "DDM">
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
 		<div className = "ArtistLine">
@@ -384,7 +384,7 @@ checkLocalArtistID(){
     </Dropdown>
 
     return(
-      <>
+      <div className = "ALL">
       <div className= "HeaderInfo" id="ProfileInfo">
         Hey! {email}<br></br>
       </div>
@@ -406,7 +406,7 @@ checkLocalArtistID(){
 
         </form>
 
-      </>
+      </div>
     );
   }
 

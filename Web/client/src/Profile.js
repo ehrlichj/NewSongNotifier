@@ -31,7 +31,7 @@ class Profile extends Component {
       email:this.props.location.state[0][0].email,
       artists:this.props.location.state[1],
       dropdownOpen:false,
-      value:"Your Artists"
+      value:"Your Artists",
     }
 
   }
@@ -42,7 +42,6 @@ class Profile extends Component {
 
 playSample(event,aid) {
   event.preventDefault();
-  console.log("playSample says",aid);
   var user={
     artist_id:aid,
   }
@@ -337,8 +336,24 @@ checkLocalArtistID(){
 
   render(){
     var email = this.state.email
-    console.log("the state is",this.state);
+    var CurrentSong = ""
+
+    if (this.state.track != null){
+	CurrentSong = <iframe src={"https://open.spotify.com/embed/track/"+this.state.track} width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    }
+
+    else{
+	CurrentSong = <>
+			<div class="spotify">
+			  <div class="bar bar-dark"></div>
+			  <div class="bar bar-med"></div>
+			  <div class="bar bar-light"></div>
+			</div>
+		      </>
+    }
+
     var MessageArrowDir = "Your Artitsts"
+
     if(this.state.dropdownOpen){
       MessageArrowDir += " \u25BC"
     }
@@ -357,7 +372,12 @@ checkLocalArtistID(){
         <DropdownMenu>
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map(artists =>
-		<><div id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}<button onClick={(e) => {this.playSample(e,artists.aid)}}>{"\u25B6"}</button></div></>
+		<div className = "ArtistLine">
+			<span id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}</span>
+			<span className = "play">
+				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Get Sample</button>
+			</span>
+		</div>
             )}
           </div>
         </DropdownMenu>
@@ -375,9 +395,15 @@ checkLocalArtistID(){
             <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
             <Button onClick={this.beginRemove} className= "Button" >Remove </Button>
           </div>
-          {dropdown}
+
+        {dropdown}
+
+	{CurrentSong}
+
           <br/>
+
           An email will be sent to you at the email above when your artist releases new music.
+
         </form>
 
       </>

@@ -80,7 +80,9 @@ body{
 .ArtistDisplayElement{
 	font-family:"FuturaBookFont___";
 	float:left;
-	font-size:15 px;
+  font-size:15 px;
+  overflow-x: scroll;
+  max-width: 50%;
 }
 
 .play{

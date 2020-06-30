@@ -5,12 +5,14 @@ import "./css/GlobalCSS.css";
 //import Dropdown from 'react-dropdown';
 import { Dropdown, DropdownMenu } from 'reactstrap';
 
+import spotifylogo from "./spotify-logo-png-7078.png";
+
 import 'react-dropdown/style.css';
 const bcrypt = require('bcrypt-nodejs');
 
 
 class Profile extends Component {
-  constructor(props){
+    constructor(props){
     super(props);
     this.routeChange = this.routeChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,10 +24,10 @@ class Profile extends Component {
     this.UpdateArtistOnPageRemove = this.UpdateArtistOnPageRemove.bind(this);
     this.beginRemove = this.beginRemove.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.setUserArtists = this.setUserArtists.bind(this);
     this.playSample = this.playSample.bind(this);
-
+    this.setUserArtists = this.setUserArtists.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.ForPrint = this.ForPrint.bind(this);
 
     this.state={
       email:this.props.location.state[0][0].email,
@@ -36,7 +38,7 @@ class Profile extends Component {
 
   }
 
-  handleChange(event) {
+handleChange(event) {
    this.setState({artist_to_add: event.target.value});
  }
 
@@ -79,47 +81,21 @@ playSample(event,aid) {
 }
 
 handleRemove(){
-  console.log("Handle Remove says",this.state.Remove_Status);
   if (this.state.Remove_Status === "Not subscribed to artist"){
-    alert("Not subscribed to artsit");
+    alert("Artist Queued For Deletion, Please Login In Again");
   }
   else if(this.state.Remove_Status === "Successfully removed"){
-    this.setState({},this.UpdateArtistOnPageRemove());
+    this.UpdateArtistOnPageRemove();
   }
 }
 
-setUserArtists(){
-  var user={
-    email: this.state.email,
-  }
-  var url = "/api/getUserArtists"
-  const req = new Request(url,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(user),
-  });
-  fetch(req)
-  .then((res)=>{
-    if(res.status===500){
-    res.json()
-    .then((json)=>{
-        const {message,stackTrace}=json;
-      })
-      .catch((error)=>{
-        return Promise.reject(error);
-      });
-    }
-    else{
-      return res.json();
-    }
-  })
-  .then(result => this.setState({artists:result}));
-}
 
-beginRemove(){
+
+beginRemove(event,artist){
+  event.preventDefault();
   var user={
     email: this.state.email,
-    artist_name : this.state.artist_to_add
+    artist_name : artist//this.state.artist_to_add
   }
   var url = "/api/removeUserArtist"
   const req = new Request(url,{
@@ -183,50 +159,45 @@ checkDuplicate(){
   .then(result => this.setState({Spotify_Artist_ID_status:result},this.UpdateArtistOnPage()));
 }
 
+setUserArtists(){
+  var user={
+    email: this.state.email,
+  }
+  var url = "/api/getUserArtists"
+  const req = new Request(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user),
+  });
+  fetch(req)
+  .then((res)=>{
+    if(res.status===500){
+    res.json()
+    .then((json)=>{
+        const {message,stackTrace}=json;
+      })
+      .catch((error)=>{
+        return Promise.reject(error);
+      });
+    }
+    else{
+      return res.json();
+    }
+  })
+  .then(result => this.setState({artists:result},()=>this.ForPrint()));
+}
+
+ForPrint(){
+	console.log("for print says",this.state.artists)
+	this.props.history.push("/profile",[[this.state.email],this.state.artists])
+}
+
 UpdateArtistOnPage(){
-  //console.log("the state before refresh",this.state);
-  // must mutate array outside of set state then setState with new array
-  //var current_artists = this.state.artists;
-  //current_artists.push({artist_name:this.state.True_Artist_Name})
-  //this.setState({artists:current_artists});
-  //this.setState({Artist_ID_status:""});
-  //this.setState({Remove_Status:""});
-
-  this.setUserArtists();
-
-  //to prevent reset on refresh, just update props with new state and send it
-  //where it already is, that way refresh reverts to updated state
-  this.props.history.push("/profile",this.props.history.location.state);
+  this.setState({Artist_ID_status:"",Remove_Status:""},()=>this.setUserArtists());
 }
 
 UpdateArtistOnPageRemove(){
-/*
-  var current_artists = this.state.artists;
-  var remove_me = this.state.artist_to_remove;
-  var store_index = 0;
-  var artist = ""
-
-  for(var i =0;i<current_artists.length;i++){
-    artist = current_artists[i].artist_name;
-    if(remove_me === artist){
-      store_index = i
-    }
-  }
-
-  current_artists.splice(store_index,1);
-
-  console.log("remove says",current_artists);
-
-  this.setState({artists:current_artists});
-  this.setState({artist_to_remove:""});
-  this.setState({Remove_Status:""});
-*/
-
-  this.setUserArtists();
-
-  //to prevent reset on refresh, just update props with new state and send it
-  //where it already is, that way refresh reverts to updated state
-  this.props.history.push("/profile",this.props.history.location.state);
+  this.setState({artist_to_remove:"",Remove_Status:""},()=>this.setUserArtists());
 }
 
 
@@ -258,7 +229,7 @@ addUserArtist(){
         return res.json();
       }
     })
-    .then(result => this.setState({Spotify_Artist_ID_status:result},this.UpdateArtistOnPage()));
+    .then(result => this.setState({Spotify_Artist_ID_status:result},()=>this.UpdateArtistOnPage()));
   }
   else{
     alert("artist not found.");
@@ -337,19 +308,14 @@ checkLocalArtistID(){
   render(){
     var email = this.state.email
     var CurrentSong = ""
-
+    console.log("render says",this.state.artists)
     if (this.state.track != null){
-	CurrentSong = <iframe src={"https://open.spotify.com/embed/track/"+this.state.track} width="300" height="280" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
+	var source = "https://open.spotify.com/embed/track/"+this.state.track
+	CurrentSong = <iframe src={source} width="300" height="250" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
     }
 
     else{
-	CurrentSong = <>
-			<div class="spotify">
-			  <div class="bar bar-dark"></div>
-			  <div class="bar bar-med"></div>
-			  <div class="bar bar-light"></div>
-			</div>
-		      </>
+	CurrentSong = <img className = "image" src = {spotifylogo}></img>
     }
 
     var MessageArrowDir = "Your Artitsts"
@@ -375,7 +341,7 @@ checkLocalArtistID(){
 		<div className = "ArtistLine">
 			<span id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}</span>
 			<span className = "play">
-				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Get Sample</button>
+				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Get Sample</button><button className = "removeButton" onClick = {(e)=>{this.beginRemove(e,artists.artist_name)}}>X</button>
 			</span>
 		</div>
             )}
@@ -392,8 +358,7 @@ checkLocalArtistID(){
         <form className= "FormFields">
           <div className="FormField">
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
-            <Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button>
-            <Button onClick={this.beginRemove} className= "Button" >Remove </Button>
+            <span className = "play"><Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button></span>
           </div>
 
         {dropdown}
@@ -402,7 +367,7 @@ checkLocalArtistID(){
 
           <br/>
 
-          An email will be sent to you at the email above when your artist releases new music.
+          <text style = {{fontSize:12}}>An email will be sent to you at the email above when your artist releases new music.</text>
 
         </form>
 

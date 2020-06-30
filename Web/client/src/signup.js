@@ -84,11 +84,11 @@ test(){
       <div className = "FormWrap">
 
         <div className="FormField">
-          <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Email" type="text" name="Email" />
+          <input onChange={this.handleChange} className= "FormField_Input_LS" placeholder= "Email" type="text" name="Email" />
         </div>
 
         <div className="FormField">
-          <input onChange={this.handleChange2} className= "FormField_Input" placeholder= "Create a Password" type="Password" name="Password" />
+          <input onChange={this.handleChange2} className= "FormField_Input_LS" placeholder= "Create a Password" type="Password" name="Password" />
         </div>
 
         <Button className="Button" id="Back" onClick={this.routeChange}>{leftarrow}</Button>

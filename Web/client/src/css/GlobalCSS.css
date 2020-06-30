@@ -1,7 +1,7 @@
-html{
-  height: 100%;
+.image{
+  width:100px;
+  height:100px;
 }
-
 body{
   height: 100%;
   min-height:100%;
@@ -48,13 +48,24 @@ body{
   padding-bottom: 10px;
   margin-top: 10px;
   font-size: 20px;
+  width: 200px;
+}
+
+.FormField_Input_LS{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid white;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  font-size: 20px;
   width: 300px;
 }
 
 .ArtistsDisplayWrapper{
-	font-family:"FuturaBookFont___";
+  font-family:"FuturaBookFont___";
   padding: 10px 10px;
-  height: 210px;
+  height: 150px;
   overflow-y: auto;
 }
 
@@ -93,20 +104,35 @@ body{
     cursor: pointer;
   }
 
+.removeButton{
+    background-color: transparent;
+    font-family: FuturaBookFont___;
+    color: Black;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+    border:none;
+    margin-left: 20px;
+    font-weight: 900;
+}
+  .removeButton:hover {
+    background-color:#d3d3d3;
+    color: #White;
+    cursor: pointer;
+  }
+
 .Button {
     background-color: white;
     font-family: FuturaBookFont___;
     color: Black;
     padding: 10px 30px;
     text-align: center;
-    display: inline-block;
+    display: inline;
     font-size: 16px;
     margin-left: 10px;
     margin-right: 10px;
-
     border: none;
     border-radius: 20px;
-    font-size: 15px;
   }
 
   .Button:hover {
@@ -119,6 +145,7 @@ body{
     padding: 20px 30px;
     text-align: center;
   }
+
   .HomePageHeader{
     font-family: FuturaBookFont___;
     margin: auto;
@@ -190,89 +217,4 @@ html {
 html,
 body {
   height: 100%;
-}
-
-.spotify {
-  position: relative;
-  margin: 20px auto;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(94px 276px, circle farthest-corner, transparent 22%, #1a4005 22%, #1A4005 35%, transparent 35%),
-          		linear-gradient(top, #96ba2a, #75a621);
-  background: radial-gradient(circle farthest-corner at 94px 276px, transparent 22%, #1a4005 22%, #1A4005 35%, transparent 35%),
-     linear-gradient(to bottom, #96ba2a, #75a621);
-  border: 1px solid rgba(0, 0, 0, .1);
-  box-shadow: 0 0 4px rgba(0, 0, 0, .5);
-  overflow: hidden;
-}
-
-
-.bar {
-  position: absolute;
-  width: 320px;
-  height: 200px;
-  border-radius: 50%;
-  border: 30px solid #305a0a;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  transform: rotate(8deg) scale(.7);
-}
-
-.bar-dark {
-  top: 20px;
-  left: -40px;
-}
-
-.bar-dark::before,
-.bar-dark::after {
-  background: #305a0a;
-}
-
-.bar-med {
-  top: 53px;
-  left: -44px;
-  transform: rotate(8deg) scale(.6);
-  border-top-color: #4a7814;
-}
-
-
-.bar-med::before,
-.bar-med::after {
-  background: #4a7814;
-}
-
-
-.bar-light {
-  top: 80px;
-  left: -49px;
-  transform: rotate(8deg) scale(.5);
-  border-top-color: #659620;
-}
-
-
-.bar-light::before,
-.bar-light::after {
-  background: #659620;
-}
-
-
-.bar::before,
-.bar::after {
-  content: '';
-  position: absolute;
-  width: 29px;
-  height: 29px;
-  border-radius: 50%;
-}
-
-.bar::before {
-  top: 0px;
-  left: 5px;
-}
-
-.bar::after {
-  top: 1px;
-  right: 4px;
 }

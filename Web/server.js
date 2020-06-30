@@ -327,9 +327,8 @@ app.post("/api/getPlayerTracks", function(req,res){
     var artist_id = req.body.artist_id;
     console.log("aid",artist_id);
     spotifyApi.getAlbumTrackIDs(artist_id, function(ret){
-      var rand_sample_choice = ret[Math.floor(Math.random() * ret.length)];;
-      var choice_id = rand_sample_choice.substring(14);
-      res.json(choice_id);
+      var album_id = ret;
+      res.json(album_id);
       res.end();
     })
 

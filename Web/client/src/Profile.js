@@ -310,7 +310,7 @@ checkLocalArtistID(){
     var CurrentSong = ""
     console.log("render says",this.state.artists)
     if (this.state.track != null){
-	var source = "https://open.spotify.com/embed/track/"+this.state.track
+	var source = "https://open.spotify.com/embed/album/"+this.state.track
 	CurrentSong = <iframe src={source} width="300" height="250" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
     }
 

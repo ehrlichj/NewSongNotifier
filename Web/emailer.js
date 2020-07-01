@@ -3,7 +3,7 @@ var sendMail = require('node-email-sender');
 
 function confirmation_email(receiver){
     var confirm_address = "http://noteifymusic.com."
-    var link = confirm_address.link("http://noteifymusic.com./confirm")
+    var link = confirm_address.link("http://noteifymusic.com./confirm?email="+receiver)
     console.log(link);
     emailConfig = {
         emailFrom:'note.ify.me1@gmail.com',

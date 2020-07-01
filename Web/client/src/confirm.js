@@ -7,6 +7,8 @@ class error extends Component {
   constructor(props){
     super(props);
   this.handleRouteChange = this.handleRouteChange.bind(this);
+  this.confirmUser = this.confirmUser.bind(this);
+  this.state = {confirmBool:true}
 }
 
 handleRouteChange(event){
@@ -16,13 +18,50 @@ handleRouteChange(event){
 	}
 }
 
+confirmUser(){
+  var url="/api/emailConfirmed";
+  var email = window.location.href;
+  var questionmarkIndex = 0;
+  for(var i = 0;i<email.length;i++){
+    if (email[i] === "?"){
+      questionmarkIndex = i;
+    }
+  }
+
+  email = email.slice(questionmarkIndex+7,email.length);
+  console.log("the email is",email);
+  var user = {email:email}
+  const req = new Request(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(user),
+  });
+  fetch(req)
+  .then((res)=>{
+    if(res.status===500){
+    res.json()
+    .then((json)=>{
+        const {message,stackTrace}=json;
+      })
+      .catch((error)=>{
+        return Promise.reject(error);
+      });
+    }
+    else{
+      return res.json();
+    }
+  })
+  .then(() => this.setState({confirmBool:false}));
+
+}
+
   render(){
+    if(this.state.confirmBool){
+      this.confirmUser()
+    }
     return(
     <>
-	<div className= "HeaderInfo">This page will be used to confirm emails</div>
-	<a href="https://www.google.com/search?q=covid+19+cases+meme&tbm=isch&ved=2ahUKEwjioOCq7qzqAhVYjOAKHfXmA5gQ2-cCegQIABAA&oq=covid+19+cases+meme&gs_lcp=CgNpbWcQAzICCAAyBggAEAUQHjoECCMQJzoHCAAQsQMQQzoFCAAQsQM6BggAEAoQGDoGCAAQCBAeOgQIABAYUIO2A1jOzQNg388DaAFwAHgAgAFIiAHqBZIBAjEymAEAoAEBqgELZ3dzLXdpei1pbWc&sclient=img&ei=6-38XqL_A9iYggf1zY_ACQ&bih=801&biw=1533#imgrc=d608ZrMT-ggD0M">Heres a meme link for now</a>
-	<br></br>
-	<br></br>
+	<div className= "HeaderInfo">Your Email Has Been Confirmed, Please Log In</div>
 	<button id = "Home" className = "Button" onClick = {this.handleRouteChange}>Home</button>
     </>
     );

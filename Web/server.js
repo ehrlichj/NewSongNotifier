@@ -88,7 +88,8 @@ app.post('/api/loginToVerify', function(req, res){
     if (err) throw err;
     //res.json(result);
     //res.end();
-    if (result.length == 0){
+    console.log(result[0].confirm)
+    if (result.length == 0 || result[0].confirm == 0){
       res.json("No User By That Email")
       res.end()
     }
@@ -99,27 +100,6 @@ app.post('/api/loginToVerify', function(req, res){
   });
 });
 
-/*
-app.post('/api/loginToGetArist', function(req, res){
-  var sql_query_string = "SELECT artist_name \
-                          FROM Music_App.User_Artist UA, Music_App.Artists A \
-                          WHERE UA.email = ? AND UA.aid = A.aid";
-
-  var email = req.body.email
-
-  db.query(sql_query_string, [email], function (err, result) {
-    if (err) throw err;
-    if (result.length == 0){
-      res.json("no artists")
-      res.end()
-    }
-
-    else{
-      res.json(result)
-    }
-  });
-});
-*/
 
 app.post('/api/getArtistID', function(req,res){
   var artist_name = req.body.artist_name;
@@ -345,9 +325,11 @@ app.post("/api/getPlayerTracks", function(req,res){
 
   })
 
-app.post("emailConfirmed", function (req,res){
+app.post("/api/emailConfirmed", function (req,res){
   var email = req.body.email;
   var sql_query_string = "UPDATE Music_App.User SET confirm= 1 WHERE email = ?";
+
+  console.log(email);
 
   db.query(sql_query_string, [email], function(err, result){
     if(err) throw err;

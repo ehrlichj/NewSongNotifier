@@ -64,12 +64,12 @@ test(){
 
   render(){
     console.log("Sign Status",this.state.SignStatus)
-    if (this.state.SignStatus === "User Added"){
-  	     this.props.history.push("/profile",this.state.query);
+    if (this.state.SignStatus === "Unconfirmed User Added"){
+  	     this.props.history.push("/confirm2");
     }
 
-	  else if (this.state.SignStatus === "Duplicate Email"){
-        this.state.SignStatus = "";
+    else if (this.state.SignStatus === "Duplicate Email"){
+  	  this.state.SignStatus = "";
 		    alert("Email Is Currently In Use");
 	  }
 

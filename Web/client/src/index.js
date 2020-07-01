@@ -6,6 +6,7 @@ import Home from "./home.js";
 import Profile from "./Profile.js";
 import error from "./error.js";
 import confirm from "./confirm.js";
+import confirm2 from "./confirm2.js";
 
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter,Route} from "react-router-dom";
@@ -19,6 +20,7 @@ ReactDOM.render(
     <Route exact path="/profile" component={Profile}/>
     <Route exact path="/error" component={error}/>
     <Route exact path="/confirm" component={confirm}/>
+    <Route exact path="/confirm2" component={confirm2}/>
   </BrowserRouter>,
   document.getElementById('root'));
 

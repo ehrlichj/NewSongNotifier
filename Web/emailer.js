@@ -2,8 +2,8 @@ var sendMail = require('node-email-sender');
 
 
 function confirmation_email(receiver){
-    var confirm_address = "noteifyme.com"
-    var link = confirm_address.link("noteifyme.com.")
+    var confirm_address = "http://noteifymusic.com."
+    var link = confirm_address.link("http://noteifymusic.com./confirm")
     console.log(link);
     emailConfig = {
         emailFrom:'note.ify.me1@gmail.com',
@@ -45,7 +45,7 @@ function sendEmail(receiver, artistName){
     console.log("email sent to ", receiver);
 }
 
-confirmation_email("ehrlichj@bu.edu");
-sendEmail("ehrlichj@bu.edu","Pink Floyd");
+//confirmation_email("aintili@bu.edu");
+//sendEmail("ehrlichj@bu.edu","Pink Floyd");
 
-module.exports = {sendEmail};
+module.exports = {sendEmail, confirmation_email};

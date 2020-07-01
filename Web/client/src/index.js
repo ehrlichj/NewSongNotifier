@@ -5,6 +5,8 @@ import Login from "./login.js";
 import Home from "./home.js";
 import Profile from "./Profile.js";
 import error from "./error.js";
+import confirm from "./confirm.js";
+
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter,Route} from "react-router-dom";
 
@@ -16,6 +18,7 @@ ReactDOM.render(
     <Route exact path="/login" component={Login}/>
     <Route exact path="/profile" component={Profile}/>
     <Route exact path="/error" component={error}/>
+    <Route exact path="/confirm" component={confirm}/>
   </BrowserRouter>,
   document.getElementById('root'));
 

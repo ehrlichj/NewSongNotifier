@@ -14,9 +14,10 @@ class Login extends Component {
     this.handleChange2=this.handleChange2.bind(this);
     this.verify=this.verify.bind(this);
     this.test=this.test.bind(this);
+
     this.state={
       login_toggle : false
-    }
+      }
   }
 
   handleChange(event) {
@@ -112,11 +113,14 @@ verify(){
 
 
   render(){
-    if (this.state.query != null){
-      if(this.state.query.length > 0 && this.state.login_toggle){// you can login
-          this.props.history.push("/profile",this.state.query);
+    if (this.state!=null){
+      if (this.state.query != null){
+        if(this.state.query.length > 0 && this.state.login_toggle){// you can login
+            this.props.history.push("/profile",this.state.query);
+        }
       }
     }
+
     var leftarrow = "\u2190"
 
     return(

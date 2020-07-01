@@ -70,6 +70,9 @@ verify(){
   if(this.state.query === "No User By That Email"){
       alert("Not Valid Email");
   }
+  else if(this.state.query == null){
+	this.props.history.push("/error");
+  }
   else{
     var email = this.state.query[0].email
     var secured = this.state.query[0].PW

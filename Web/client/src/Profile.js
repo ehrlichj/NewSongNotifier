@@ -28,7 +28,9 @@ class Profile extends Component {
     this.setUserArtists = this.setUserArtists.bind(this);
     this.toggle = this.toggle.bind(this);
     this.ForPrint = this.ForPrint.bind(this);
-
+    if(this.props.location.state == null || this.props.location.state[0] == null || this.props.location.state[0][0] == null || this.props.location.state[1] == null  ){
+	this.props.history.push("/error");
+}
     this.state={
       email:this.props.location.state[0][0].email,
       artists:this.props.location.state[1],
@@ -189,11 +191,21 @@ setUserArtists(){
 
 ForPrint(){
 	console.log("for print says",this.state.artists)
-	this.props.history.push("/profile",[[this.state.email],this.state.artists])
+	this.props.history.push("/profile",[[{email:this.state.email}],this.state.artists])
 }
 
 UpdateArtistOnPage(){
-  this.setState({Artist_ID_status:"",Remove_Status:""},()=>this.setUserArtists());
+  if(this.state.Spotify_Artist_ID_status === "User has already added this artist"){
+    alert("Already subscribed to this artist")
+  }
+
+  else if(this.state.Spotify_Artist_ID_status == null){
+    this.props.history.push("/error")
+  }
+
+  else{
+    this.setState({Artist_ID_status:"",Remove_Status:""},()=>this.setUserArtists());
+  }
 }
 
 UpdateArtistOnPageRemove(){
@@ -306,9 +318,16 @@ checkLocalArtistID(){
 
 
   render(){
+
+    if (this.state.email == null || this.state.artists == null){
+	this.props.history.push("/error");
+    }
+
+    else{
     var email = this.state.email
     var CurrentSong = ""
     console.log("render says",this.state.artists)
+
     if (this.state.track != null){
 	var source = "https://open.spotify.com/embed/album/"+this.state.track
 	CurrentSong = <iframe src={source} width="300" height="250" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
@@ -348,6 +367,9 @@ checkLocalArtistID(){
           </div>
         </DropdownMenu>
     </Dropdown>
+    }
+
+
 
     return(
       <div className = "ALL">

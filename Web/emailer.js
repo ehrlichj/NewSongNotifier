@@ -1,8 +1,11 @@
 var sendMail = require('node-email-sender');
 
 
-function confirmation_email(reciever){
-    emailConfi = {
+function confirmation_email(receiver){
+    var confirm_address = "noteifyme.com"
+    var link = confirm_address.link("noteifyme.com.")
+    console.log(link);
+    emailConfig = {
         emailFrom:'note.ify.me1@gmail.com',
         transporterConfig:{
             service: 'gmail',
@@ -17,9 +20,9 @@ function confirmation_email(reciever){
         to: receiver,
         subject: "Welcome to NoteifyMe!",
         content: "Welcome to NoteifyMe, the web application that notifies you when you favorite music artists release new music. \n" + 
-        ""
-
-    })
+        "Please click the following link to verify your email:" + link
+    });
+    console.log("confirmation email sent to",receiver);
 }
 function sendEmail(receiver, artistName){
     emailConfig = {
@@ -41,5 +44,8 @@ function sendEmail(receiver, artistName){
     });
     console.log("email sent to ", receiver);
 }
+
+confirmation_email("ehrlichj@bu.edu");
+sendEmail("ehrlichj@bu.edu","Pink Floyd");
 
 module.exports = {sendEmail};

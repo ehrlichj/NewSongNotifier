@@ -65,11 +65,12 @@ app.post('/api/signup', function(req, res){
   })
 
 function createNewUser(email,password){
-  var sql_query_string = "INSERT INTO Music_App.User VALUES (?,?)";
+  var sql_query_string = "INSERT INTO Music_App.User VALUES (?,?,?)";
 
-  db.query(sql_query_string, [email,password], function (err, result) {
+  db.query(sql_query_string, [email,password, 0], function (err, result) {
     if (err) throw err;
-    res.json("User Added");
+    emailApi.confirmation_email(email);
+    res.json("Unconfirmed User Added");
     res.end()
   });
   }
@@ -344,8 +345,16 @@ app.post("/api/getPlayerTracks", function(req,res){
 
   })
 
+app.post("emailConfirmed", function (req,res){
+  var email = req.body.email;
+  var sql_query_string = "UPDATE Music_App.User SET confirm= 1 WHERE email = ?";
 
-//updateReleaseDates();
+  db.query(sql_query_string, [email], function(err, result){
+    if(err) throw err;
+    res.json("db updated with email confirmation");
+    res.end();
+  });
+});
 
 
 const port = 5000;

@@ -24,7 +24,13 @@ class Login extends Component {
    this.setState({email: event.target.value});
  }
  handleChange2(event) {
-  this.setState({password: event.target.value});
+  if(event.target.value == null){
+    this.setState({password:""});
+  }
+  else{
+    this.setState({password: event.target.value});
+  }
+
 }
 
   routeChange(value){
@@ -38,33 +44,39 @@ class Login extends Component {
 
 test(){
   //console.log(this.state);
-  var user={
-    email:this.state.email,
-  }
-  //console.log(user);
-  var url="/api/loginToVerify";
-  const req = new Request(url,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(user),
-  });
+  if(this.state.email!=null){
+    var user={
+      email:this.state.email,
+    }
+    //console.log(user);
+    var url="/api/loginToVerify";
+    const req = new Request(url,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(user),
+    });
 
-  fetch(req)
-  .then((res)=>{
-    if(res.status===500){
-    res.json()
-    .then((json)=>{
-        const {message,stackTrace}=json;
-      })
-      .catch((error)=>{
-        return Promise.reject(error);
-      });
-    }
-    else{
-      return res.json();
-    }
-  })
-  .then(query_result => this.setState({query:query_result},() => this.verify()));
+    fetch(req)
+    .then((res)=>{
+      if(res.status===500){
+      res.json()
+      .then((json)=>{
+          const {message,stackTrace}=json;
+        })
+        .catch((error)=>{
+          return Promise.reject(error);
+        });
+      }
+      else{
+        return res.json();
+      }
+    })
+    .then(query_result => this.setState({query:query_result},() => this.verify()));
+ }
+ else{
+  alert("Invalid Email or Password");
+ }
+
 }
 
 verify(){

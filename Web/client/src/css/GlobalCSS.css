@@ -1,8 +1,14 @@
+.ALL{
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+}
 
 .image{
   width:100px;
   height:100px;
 }
+
 body{
   text-align: center;
   display: flex;
@@ -12,7 +18,6 @@ body{
   margin-top:auto;
   margin:0;
   padding:0;
-  position: relative;
   overflow-y: auto;
 }
 
@@ -118,7 +123,7 @@ body{
     display: inline-block;
     font-size: 15px;
     border:none;
-    margin-left: 20px;
+    margin-left: 10px;
     font-weight: 900;
 }
   .removeButton:hover {
@@ -147,13 +152,32 @@ body{
     cursor: pointer;
   }
 
+.ButtonNoRight {
+    background-color: white;
+    font-family: FuturaBookFont___;
+    color: Black;
+    padding: 10px 30px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+  }
+
+  .ButtonNoRight:hover {
+    background-color:#01FF70;
+    color: #White;
+    cursor: pointer;
+  }
+
 .artistButton {
     background-color: white;
     font-family: FuturaBookFont___;
     color: Black;
     padding: 10px 30px;
-    max-width:200px;
-    min-width:200px;
+    max-width:170px;
+    min-width:170px;
     text-align: center;
     display: inline;
     font-size: 16px;
@@ -223,6 +247,11 @@ body{
     width: 100%;
   }
 
+.dropDiv{
+  display:inline-flex;
+  vertical-align:middle;
+}
+
 
   .FakeDropDown{
     background-color: white;
@@ -230,15 +259,35 @@ body{
     color: Black;
     padding: 10px 30px;
     text-align: center;
-    display: inline-block;
+    display: inline;
     font-size: 16px;
-    width: 100%;
     border: none;
-    border-radius: 20px;
+    min-width:225px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     font-size: 15px;
   }
 
   .FakeDropDown:hover {
+    color: #White;
+    cursor: pointer;
+  }
+
+  .realDropDown{
+    background-color: white;
+    font-family: FuturaBookFont___;
+    color: Black;
+    padding: 10px 30px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    border: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-size: 15px;
+  }
+
+  .realDropDown:hover {
     color: #White;
     cursor: pointer;
   }

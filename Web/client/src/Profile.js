@@ -30,6 +30,7 @@ class Profile extends Component {
     this.ForPrint = this.ForPrint.bind(this);
     this.determineMargin = this.determineMargin.bind(this);
     this.doNothing = this.doNothing.bind(this);
+    this.prepEmail = this.prepEmail.bind(this);
 
     if(this.props.location.state == null || this.props.location.state[0] == null || this.props.location.state[0][0] == null || this.props.location.state[1] == null){
 	this.props.history.push("/error");
@@ -44,6 +45,16 @@ class Profile extends Component {
     }
 
   }
+
+prepEmail(email){
+  var at_index = email.length-1
+  for(var i=0;i<email.length;i++){
+    if(email[i] === "@"){
+      at_index = i;
+    }
+  }
+  return email.slice(0,at_index)
+}
 
 handleChange(event) {
    this.setState({artist_to_add: event.target.value});
@@ -349,30 +360,38 @@ checkLocalArtistID(){
     }
 
     else{
-      var email = this.state.email;
+      var email = this.prepEmail(this.state.email);
       var CurrentSong = "";
     }
 
     if (this.state.track != null){
 	var source = "https://open.spotify.com/embed/album/"+this.state.track
-	CurrentSong = <iframe src={source} width="300" height="250" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
+	CurrentSong = <iframe src={source} width="300" height="300" frameborder="0" allowtransparency="false" allow="encrypted-media"></iframe>
     }
 
     else{
 	CurrentSong = <img className = "image" src = {spotifylogo}></img>
     }
 
-    var Message = <span>Your Artitsts</span>
+    var Message = "Your Artitsts";
     var MessageArrowDir;
     if(this.state.dropdownOpen){
-      MessageArrowDir = <span style = {{marginLeft:"10px"}}>{"\u25BC"}</span>
+      MessageArrowDir = "\u25BC";
     }
 
     else{
-      MessageArrowDir = <span style = {{marginLeft:"10px"}}>{"\u25B2"}</span>
+      MessageArrowDir = "\u25B2";
     }
 
-    var dropdownDisplay = <Button onClick={this.toggle} className = "FakeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>{Message}{MessageArrowDir}</Button>
+    var dropdownDisplay =<>
+                          <div className = "dropDiv">
+                            <Button className = "FakeDropDown" onClick = {(e)=>{this.doNothing(e)}}><span style={{marginLeft:"55px"}}>{Message}</span></Button>
+
+                            <Button className = "realDropDown "onClick = {this.toggle} aria-expanded = {this.state.dropdownOpen}
+                                    data-toggle = "dropdown" aria-haspopup="true"><span style={{fontSize:"18px"}}>{MessageArrowDir}</span></Button>
+
+                          </div>
+                         </>
 
     var dropdown =
 
@@ -385,6 +404,7 @@ checkLocalArtistID(){
 		<div className = "ArtistLine" style = {{marginBottom:"25px"}}>
 			<button id = {artists.aid} onClick = {(e)=>{this.doNothing(e)}} className = "artistButton">{artists.artist_name}</button>
 			<button onClick = {(e)=>{this.playSample(e,artists.aid)}} className = "playArtistButton">{"\u25B6"}</button>
+			<button onClick = {(e)=>{this.beginRemove(e,artists.artist_name)}} className = "removeButton">X</button>
 		</div>
             )}
           </div>
@@ -394,22 +414,21 @@ checkLocalArtistID(){
 
     return(
       <div className = "ALL">
-      <div className= "HeaderInfo" id="ProfileInfo">
-        Hey! {email}<br></br>
-      </div>
+
+        <div className= "HeaderInfo" id="ProfileInfo">
+          Hey! {email}<br></br>
+        </div>
+
         <form className= "FormFields">
           <div className="FormField">
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />
-            <span className = "play"><Button onClick={this.checkLocalArtistID} className= "Button" >Add </Button></span>
+             <span className = "play"><Button onClick={this.checkLocalArtistID} className= "ButtonNoRight" >Add </Button></span>
           </div>
+          {dropdown}
 
-        {dropdown}
+          {CurrentSong}
 
-	{CurrentSong}
-
-          <br/>
-
-          <div style = {{fontSize:12}}>An email will be sent to you at the email above when your artist releases new music.</div>
+          <div style = {{fontSize:12},{marginTop:"20px"},{marginBottom:"20px"}}>An email will be sent to you at the email above when your artist releases new music.</div>
 
         </form>
 

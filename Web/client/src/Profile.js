@@ -3,11 +3,11 @@ import {Button} from "reactstrap";
 import {withRouter} from "react-router-dom";
 import "./css/GlobalCSS.css";
 //import Dropdown from 'react-dropdown';
-import { Dropdown, DropdownMenu } from 'reactstrap';
-
+import { Dropdown, DropdownMenu, MenuItem, DropdownButton, DropdownToggle, DropdownItem} from 'reactstrap';
 import spotifylogo from "./spotify-logo-png-7078.png";
 
 import 'react-dropdown/style.css';
+
 const bcrypt = require('bcrypt-nodejs');
 
 
@@ -29,9 +29,9 @@ class Profile extends Component {
     this.toggle = this.toggle.bind(this);
     this.ForPrint = this.ForPrint.bind(this);
     this.determineMargin = this.determineMargin.bind(this);
+    this.doNothing = this.doNothing.bind(this);
 
     if(this.props.location.state == null || this.props.location.state[0] == null || this.props.location.state[0][0] == null || this.props.location.state[1] == null){
-        console.log("errrr");
 	this.props.history.push("/error");
     }
     else{
@@ -48,6 +48,10 @@ class Profile extends Component {
 handleChange(event) {
    this.setState({artist_to_add: event.target.value});
  }
+
+doNothing(event){
+  event.preventDefault();
+}
 
 determineMargin(name,index){
   var margin;
@@ -378,11 +382,9 @@ checkLocalArtistID(){
         <DropdownMenu className = "DDM">
           <div className = "ArtistsDisplayWrapper">
             {this.state.artists.map((artists,index) =>
-		<div className = "ArtistLine" style = {this.determineMargin(artists.artist_name,index)}>
-			<span id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}</span>
-			<span className = "play">
-				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Sample</button><button className = "removeButton" onClick = {(e)=>{this.beginRemove(e,artists.artist_name)}}>X</button>
-			</span>
+		<div className = "ArtistLine" style = {{marginBottom:"25px"}}>
+			<button id = {artists.aid} onClick = {(e)=>{this.doNothing(e)}} className = "artistButton">{artists.artist_name}</button>
+			<button onClick = {(e)=>{this.playSample(e,artists.aid)}} className = "playArtistButton">{"\u25B6"}</button>
 		</div>
             )}
           </div>
@@ -390,14 +392,11 @@ checkLocalArtistID(){
     </Dropdown>
 
 
-
-
     return(
       <div className = "ALL">
       <div className= "HeaderInfo" id="ProfileInfo">
         Hey! {email}<br></br>
       </div>
-
         <form className= "FormFields">
           <div className="FormField">
             <input onChange={this.handleChange} className= "FormField_Input" placeholder= "Artist Name" type="text" name="artist" />

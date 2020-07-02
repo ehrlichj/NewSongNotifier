@@ -1,10 +1,9 @@
+
 .image{
   width:100px;
   height:100px;
 }
 body{
-  height: 100%;
-  min-height:100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -13,9 +12,8 @@ body{
   margin-top:auto;
   margin:0;
   padding:0;
-  min-height: 100%;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .HeaderInfo{
@@ -35,8 +33,8 @@ body{
 }
 
 .FormFields{
-  max-width:350px;
-  min-width:350px;
+  max-width:300px;
+  min-width:300px;
 }
 
 .FormField_Label{
@@ -53,7 +51,7 @@ body{
   padding-bottom: 10px;
   margin-top: 10px;
   font-size: 20px;
-  width: 200px;
+  width: 175px;
 }
 
 .FormField_Input_LS{
@@ -70,22 +68,23 @@ body{
 .ArtistsDisplayWrapper{
   font-family:"FuturaBookFont___";
   padding: 10px 10px;
-  height: 150px;
+  height: 350px;
   overflow-y: auto;
 }
 
 .ArtistLine{
 	padding-top: 10px;
-	display:block;
+	display:inline-flex;
 	vertical-align:middle;
 	line-height:45px;
+	float:left;
 }
 
 .ArtistDisplayElement{
     font-family:"FuturaBookFont___";
     float:left;
     font-size:15 px;
-    max-width:150px;
+    max-width:125px;
     word-wrap:break-word;
     text-align:left;
 }
@@ -143,6 +142,46 @@ body{
   }
 
   .Button:hover {
+    background-color:#01FF70;
+    color: #White;
+    cursor: pointer;
+  }
+
+.artistButton {
+    background-color: white;
+    font-family: FuturaBookFont___;
+    color: Black;
+    padding: 10px 30px;
+    max-width:200px;
+    min-width:200px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    border: none;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  .artistButton:hover {
+    background-color:#01FF70;
+    color: #White;
+    cursor: pointer;
+  }
+
+.playArtistButton {
+    background-color: white;
+    font-family: FuturaBookFont___;
+    color: Black;
+    padding: 10px 30px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    border: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .playArtistButton:hover {
     background-color:#01FF70;
     color: #White;
     cursor: pointer;
@@ -214,14 +253,4 @@ body{
   }
 *, ::before, ::after {
   box-sizing: border-box;
-}
-
-html {
-  background: radial-gradient(center center, circle farthest-side, #E6E6E6, #CCC);
-  background: radial-gradient(circle farthest-side, #E6E6E6, #CCC);
-}
-
-html,
-body {
-  height: 100%;
 }

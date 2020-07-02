@@ -34,6 +34,11 @@ body{
   text-align: left;
 }
 
+.FormFields{
+  max-width:350px;
+  min-width:350px;
+}
+
 .FormField_Label{
   display: block;
   text-align: left;
@@ -70,17 +75,19 @@ body{
 }
 
 .ArtistLine{
-	padding-bottom: 30px;
-	padding-top: 30px;
+	padding-top: 10px;
 	display:block;
 	vertical-align:middle;
-	line-height:55px;
+	line-height:45px;
 }
 
 .ArtistDisplayElement{
     font-family:"FuturaBookFont___";
     float:left;
     font-size:15 px;
+    max-width:150px;
+    word-wrap:break-word;
+    text-align:left;
 }
 
 .play{

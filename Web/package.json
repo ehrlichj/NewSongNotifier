@@ -9,7 +9,7 @@
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
- "proxy": "http://0.0.0.0:3000",
+  "proxy": "http://0.0.0.0:3000",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +19,7 @@
     "mysql": "^2.16.0",
     "node-email-sender": "^1.0.1",
     "react-dropdown": "^1.7.0",
+    "react-password-strength": "^2.4.0",
     "react-router-dom": "^5.0.0",
     "request": "^2.88.2",
     "spotify": "^0.3.0",

@@ -28,6 +28,8 @@ class Profile extends Component {
     this.setUserArtists = this.setUserArtists.bind(this);
     this.toggle = this.toggle.bind(this);
     this.ForPrint = this.ForPrint.bind(this);
+    this.determineMargin = this.determineMargin.bind(this);
+
     if(this.props.location.state == null || this.props.location.state[0] == null || this.props.location.state[0][0] == null || this.props.location.state[1] == null){
         console.log("errrr");
 	this.props.history.push("/error");
@@ -46,6 +48,21 @@ class Profile extends Component {
 handleChange(event) {
    this.setState({artist_to_add: event.target.value});
  }
+
+determineMargin(name,index){
+  var margin;
+  if(name.length >= 28){
+    margin = {marginBottom:"175px"}
+  }
+  else if(name.length >= 23 && name.length < 28){
+    margin = {marginBottom:"100px"}
+  }
+  else{
+    margin = {marginBottom:"50px"}
+  }
+
+  return margin
+}
 
 playSample(event,aid) {
   event.preventDefault();
@@ -328,9 +345,9 @@ checkLocalArtistID(){
     }
 
     else{
-    var email = this.state.email
-    var CurrentSong = ""
-    //console.log("render says",this.state.artists)
+      var email = this.state.email;
+      var CurrentSong = "";
+    }
 
     if (this.state.track != null){
 	var source = "https://open.spotify.com/embed/album/"+this.state.track
@@ -341,37 +358,37 @@ checkLocalArtistID(){
 	CurrentSong = <img className = "image" src = {spotifylogo}></img>
     }
 
-    var MessageArrowDir = "Your Artitsts"
-
+    var Message = <span>Your Artitsts</span>
+    var MessageArrowDir;
     if(this.state.dropdownOpen){
-      MessageArrowDir += " \u25BC"
+      MessageArrowDir = <span style = {{marginLeft:"10px"}}>{"\u25BC"}</span>
     }
 
     else{
-      MessageArrowDir += " \u25B2"
+      MessageArrowDir = <span style = {{marginLeft:"10px"}}>{"\u25B2"}</span>
     }
+
+    var dropdownDisplay = <Button onClick={this.toggle} className = "FakeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>{Message}{MessageArrowDir}</Button>
 
     var dropdown =
 
-    <Dropdown isOpen={this.state.dropdownOpen}>
-        <Button onClick={this.toggle} className = "FakeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>
-        {MessageArrowDir}
-        </Button>
+    <Dropdown style = {{marginBottom:"10px"}} isOpen={this.state.dropdownOpen}>
+        {dropdownDisplay}
 
         <DropdownMenu className = "DDM">
           <div className = "ArtistsDisplayWrapper">
-            {this.state.artists.map(artists =>
-		<div className = "ArtistLine">
+            {this.state.artists.map((artists,index) =>
+		<div className = "ArtistLine" style = {this.determineMargin(artists.artist_name,index)}>
 			<span id = {artists.artist_name} className = "ArtistDisplayElement">{artists.artist_name}</span>
 			<span className = "play">
-				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Get Sample</button><button className = "removeButton" onClick = {(e)=>{this.beginRemove(e,artists.artist_name)}}>X</button>
+				<button className = "playButton" onClick={(e) => {this.playSample(e,artists.aid)}}>Sample</button><button className = "removeButton" onClick = {(e)=>{this.beginRemove(e,artists.artist_name)}}>X</button>
 			</span>
 		</div>
             )}
           </div>
         </DropdownMenu>
     </Dropdown>
-    }
+
 
 
 
@@ -393,7 +410,7 @@ checkLocalArtistID(){
 
           <br/>
 
-          <text style = {{fontSize:12}}>An email will be sent to you at the email above when your artist releases new music.</text>
+          <div style = {{fontSize:12}}>An email will be sent to you at the email above when your artist releases new music.</div>
 
         </form>
 

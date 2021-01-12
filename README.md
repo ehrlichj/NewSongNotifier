@@ -12,10 +12,10 @@ APIs: Spotify, Emailer
 The backend, frontend, and database are all hosted on AWS
 
 
-![Landing Page]()
+![Landing Page](https://github.com/ehrlichj/NewSongNotifier/blob/master/landing.png)
 
-![Profile Page]()
+![Profile Page](https://github.com/ehrlichj/NewSongNotifier/blob/master/profile.png)
 
-![Spotify Player]()
+![Spotify Player](https://github.com/ehrlichj/NewSongNotifier/blob/master/player.png)
 
 
